@@ -71,7 +71,13 @@ h2.title.green em{color:var(--green)}
 .statement{font-family:var(--font-display);font-weight:500;font-size:112px;line-height:.98;color:var(--ink);letter-spacing:-.02em}
 .statement em{font-style:italic;color:var(--accent2);font-weight:400}
 .statement .neq{color:var(--accent2);font-weight:400}
-</style>
+
+/* references list */
+.refs{list-style:none;counter-reset:ref;margin-top:8px;max-width:1500px}
+.refs li{counter-increment:ref;position:relative;padding-left:42px;margin-bottom:13px;font-family:var(--font-body);font-weight:400;font-size:18px;line-height:1.42;color:var(--ink-soft)}
+.refs li::before{content:counter(ref);position:absolute;left:0;top:1px;width:26px;text-align:right;font-family:var(--font-mono);font-size:15px;color:var(--accent);font-weight:600}
+.refs li em{font-style:italic}
+</style></style>
   <link rel="preload" as="image" href="assets/policy_chain.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="assets/ai_agents_each_person.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="assets/llm_next_token.jpg" fetchpriority="high">
@@ -89,13 +95,13 @@ h2.title.green em{color:var(--green)}
     <div class="rule"></div>
     <p class="lead" style="max-width:1040px">Good policy can still cause harm &mdash; simulation lets us test a policy before we launch it. But what if the test itself is only a guess?</p>
   </div>
-  <div class="topbar"><span><span class="dot"></span>Introduction</span><span>1 / 14</span></div>
+  <div class="topbar"><span><span class="dot"></span>Introduction</span><span>1 / 15</span></div>
 </section>
 
 <!-- SLIDE 2: GOOD POLICY CAN STILL CAUSE HARM -->
 <section class="slide">
   <div class="slide-pad">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>2 / 14</span></div>
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>2 / 15</span></div>
     <div class="kicker" style="margin-top:30px">The motivation</div>
     <h2 class="title">Good policy can still <em>cause harm</em></h2>
     <div class="split">
@@ -118,7 +124,7 @@ h2.title.green em{color:var(--green)}
 <!-- SLIDE 3: THE CHAIN -->
 <section class="slide">
   <div class="slide-pad">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>3 / 14</span></div>
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>3 / 15</span></div>
     <div class="kicker" style="margin-top:30px">The mechanism</div>
     <h2 class="title">Simulation: policy &rarr; decision &rarr; <em>outcome</em></h2>
     <div class="split">
@@ -136,7 +142,7 @@ h2.title.green em{color:var(--green)}
 <!-- SLIDE 4: ONE FARE RISE, THREE REACTIONS -->
 <section class="slide">
   <div class="slide-pad">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>4 / 14</span></div>
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>4 / 15</span></div>
     <div class="kicker" style="margin-top:30px">The traditional approach</div>
     <h2 class="title">One fare rise, <em>three</em> reactions</h2>
     <div class="split">
@@ -154,12 +160,13 @@ h2.title.green em{color:var(--green)}
       </div>
     </div>
   </div>
+    <div class="cite">Ghaffarzadegan et al. (2024); Jamali &amp; Lazarova-Molnar (2026)</div>
 </section>
 
 <!-- SLIDE 5: AI MODELS EACH PERSON -->
 <section class="slide">
   <div class="slide-pad">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>5 / 14</span></div>
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>5 / 15</span></div>
     <div class="kicker" style="margin-top:30px">The AI approach</div>
     <h2 class="title">AI models each person</h2>
     <div class="split">
@@ -173,12 +180,13 @@ h2.title.green em{color:var(--green)}
       </div>
     </div>
   </div>
+    <div class="cite">Zhang, Peng &amp; Ren (2026)</div>
 </section>
 
 <!-- SLIDE 6: HOW THE LLM PREDICTS -->
 <section class="slide">
   <div class="slide-pad">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>6 / 14</span></div>
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>6 / 15</span></div>
     <div class="kicker" style="margin-top:30px">The catch</div>
     <h2 class="title">How the LLM predicts &mdash; it does not <em>know</em></h2>
     <div class="split">
@@ -192,11 +200,12 @@ h2.title.green em{color:var(--green)}
       </div>
     </div>
   </div>
+    <div class="cite">Ji et al. (2023)</div>
 </section>
 <!-- SLIDE 7: TOM & JERRY (transition) -->
 <section class="slide">
   <div class="slide-pad center-slide">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>7 / 14</span></div>
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>7 / 15</span></div>
     <div style="display:flex;align-items:center;justify-content:center;gap:64px;flex:1;min-height:0;margin-top:24px">
       <img src="assets/tom_jerry.jpg" alt="Tom standing on Jerry — a cat really can sit on a rat, but only in cartoons." style="max-width:46%;max-height:78%;border-radius:18px;object-fit:contain" loading="lazy" decoding="async">
       <div style="max-width:44%">
@@ -212,7 +221,7 @@ h2.title.green em{color:var(--green)}
 <!-- SLIDE 8: ERROR PROPAGATES -->
 <section class="slide">
   <div class="slide-pad">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>8 / 14</span></div>
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>8 / 15</span></div>
     <div class="kicker red" style="margin-top:30px">The consequence</div>
     <h2 class="title red">A small guess <em>grows</em> down the chain</h2>
     <div class="split">
@@ -233,7 +242,7 @@ h2.title.green em{color:var(--green)}
 <!-- SLIDE 9: THE GAP IN THE FIELD -->
 <section class="slide">
   <div class="slide-pad">
-    <div class="topbar"><span><span class="dot"></span>The problem</span><span>9 / 14</span></div>
+    <div class="topbar"><span><span class="dot"></span>The problem</span><span>9 / 15</span></div>
     <div class="kicker red" style="margin-top:30px">The gap in the field</div>
     <h2 class="title red">Nobody checked it against <em>real data</em></h2>
     <div class="split">
@@ -255,7 +264,7 @@ h2.title.green em{color:var(--green)}
 <!-- SLIDE 10: THE FIX -->
 <section class="slide">
   <div class="slide-pad">
-   <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>10 / 14</span></div>
+   <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>10 / 15</span></div>
     <div class="kicker green" style="margin-top:30px">The fix</div>
     <h2 class="title green">An <em>evaluation system</em> for the decision step</h2>
     <div class="split">
@@ -277,7 +286,7 @@ h2.title.green em{color:var(--green)}
 <!-- SLIDE 11: BENCHMARK -->
 <section class="slide">
   <div class="slide-pad">
-    <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>11 / 14</span></div>
+    <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>11 / 15</span></div>
     <div class="kicker green" style="margin-top:30px">Component 1</div>
     <h2 class="title green">&#9312; Benchmark &mdash; compare with <em>real data</em></h2>
     <div class="split">
@@ -294,12 +303,13 @@ h2.title.green em{color:var(--green)}
       </div>
     </div>
   </div>
+    <div class="cite">Chang et al. (2024)</div>
 </section>
 
 <!-- SLIDE 12: RUBRIC -->
 <section class="slide">
   <div class="slide-pad">
-    <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>12 / 14</span></div>
+    <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>12 / 15</span></div>
     <div class="kicker green" style="margin-top:30px">Component 2</div>
     <h2 class="title green">&#9313; Rubric &mdash; the right <em>people</em></h2>
     <div class="split">
@@ -320,7 +330,7 @@ h2.title.green em{color:var(--green)}
 <!-- SLIDE 13: MECHANISM -->
 <section class="slide">
   <div class="slide-pad">
-    <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>13 / 14</span></div>
+    <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>13 / 15</span></div>
     <div class="kicker green" style="margin-top:30px">Component 3</div>
     <h2 class="title green">&#9314; Mechanism &mdash; fix the agent, <em>run again</em></h2>
     <div class="split">
@@ -337,6 +347,7 @@ h2.title.green em{color:var(--green)}
       </div>
     </div>
   </div>
+    <div class="cite">Li, Das &amp; Shirado (2025)</div>
 </section>
 
 <!-- SLIDE 14: CONCLUSION -->
@@ -348,10 +359,31 @@ h2.title.green em{color:var(--green)}
     <p class="lead" style="max-width:1280px">AI-based policy simulation can explore how people might respond to a policy, but it cannot yet predict what will happen. To get closer to prediction, the individual-decision step needs to be checked against real data and improved where it falls short.</p>
     <p class="body" style="margin-top:18px;max-width:1280px">Validation needs past data &mdash; for a genuinely novel policy none exists, but calibrating where data does exist carries over. The deeper limit: the system checks only the decision step, not the whole chain. And any model used in policy must state openly what it assumes and how it was validated &mdash; so others can check its conclusions rather than take them on trust.</p>
   </div>
-  <div class="topbar"><span><span class="dot"></span>Conclusion</span><span>14 / 14</span></div>
+  <div class="topbar"><span><span class="dot"></span>Conclusion</span><span>14 / 15</span></div>
   <div class="cite">Belfrage et al. (2024)</div>
 </section>
 
+
+<!-- SLIDE 15: REFERENCES -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>References</span><span>15 / 15</span></div>
+    <div class="kicker" style="margin-top:30px">References</div>
+    <h2 class="title" style="font-size:44px;margin-bottom:26px">References</h2>
+    <ol class="refs">
+      <li>Belfrage, M., Johansson, E., Lorig, F. and Davidsson, P. (2024) &lsquo;[In]Credible models: verification, validation and accreditation of agent-based models to support policy-making&rsquo;, <em>Journal of Artificial Societies and Social Simulation</em>, 27(4), article 4.</li>
+      <li>Chang, Y., Wang, X., Wang, J., Wu, Y., Yang, L., Zhu, K., Chen, H., Yi, X., Wang, C., Wang, Y., Ye, W., Zhang, Y., Chang, Y., Yu, P., Yang, Q. and Xie, X. (2024) &lsquo;A survey on evaluation of large language models&rsquo;, <em>ACM Transactions on Intelligent Systems and Technology</em>, 15(3), pp. 1&ndash;45.</li>
+      <li>Ghaffarzadegan, N., Majumdar, A., Williams, R. and Hosseinichimeh, N. (2024) &lsquo;Generative agent-based modeling: an introduction and tutorial&rsquo;, <em>System Dynamics Review</em>, 40(1), article e1761.</li>
+      <li>Jamali, R. and Lazarova-Molnar, S. (2026) &lsquo;Agent-based modeling and simulation for economic markets: a comprehensive review of applications, challenges, and opportunities&rsquo;, <em>Journal of Simulation</em>, pp. 1&ndash;50.</li>
+      <li>Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., Ishii, E., Bang, Y., Madotto, A. and Fung, P. (2023) &lsquo;Survey of hallucination in natural language generation&rsquo;, <em>ACM Computing Surveys</em>, 55(12), pp. 1&ndash;38.</li>
+      <li>Larooij, M. and T&ouml;rnberg, P. (2025) &lsquo;Validation is the central challenge for generative social simulation: a critical review of LLMs in agent-based modeling&rsquo;, <em>Artificial Intelligence Review</em>, 59(1), article 15.</li>
+      <li>Li, Y., Das, S. and Shirado, H. (2025) &lsquo;What makes LLM agent simulations useful for policy practice? An iterative design study in emergency preparedness&rsquo;, arXiv preprint.</li>
+      <li>Neumark, D., Salas, I. and Wascher, W. (2014) &lsquo;Revisiting the minimum wage&ndash;employment debate: throwing out the baby with the bathwater?&rsquo;, <em>ILR Review</em>, 67(3 suppl), pp. 608&ndash;648.</li>
+      <li>Park, J.S., Zou, C.Q., Kamphorst, J., Egan, N., Shaw, A., Hill, B.M., Cai, C., Morris, M.R., Liang, P., Willer, R. and Bernstein, M.S. (2024) &lsquo;LLM agents grounded in self-reports enable general-purpose simulation of individuals&rsquo;, arXiv preprint.</li>
+      <li>Zhang, S., Peng, Z. and Ren, Y. (2026) &lsquo;GPLab: a generative agent-based framework for policy simulation and evaluation&rsquo;, <em>Journal of Artificial Societies and Social Simulation</em>, 29(1), article 6.</li>
+    </ol>
+  </div>
+</section>
   </main>
 </div>
 <script>
