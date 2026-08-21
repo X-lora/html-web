@@ -77,7 +77,16 @@ h2.title.green em{color:var(--green)}
 .refs li{counter-increment:ref;position:relative;padding-left:42px;margin-bottom:13px;font-family:var(--font-body);font-weight:400;font-size:18px;line-height:1.42;color:var(--ink-soft)}
 .refs li::before{content:counter(ref);position:absolute;left:0;top:1px;width:26px;text-align:right;font-family:var(--font-mono);font-size:15px;color:var(--accent);font-weight:600}
 .refs li em{font-style:italic}
-</style></style>
+
+/* stacked layout: text strip on top, large centered figure below */
+.stack-hero{display:flex;flex-direction:column;flex:1;min-height:0;margin-top:34px;gap:22px}
+.stack-hero .htext{flex:0 0 auto}
+.stack-hero .hpic{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center}
+.stack-hero .hpic img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:14px}
+.stack-hero.compact{gap:14px}
+.stack-hero.compact .body{font-size:22px;line-height:1.5}
+.stack-hero.compact .body + .body{margin-top:10px}
+</style></style></style>
   <link rel="preload" as="image" href="assets/policy_chain.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="assets/ai_agents_each_person.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="assets/llm_next_token.jpg" fetchpriority="high">
@@ -127,12 +136,11 @@ h2.title.green em{color:var(--green)}
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
     <div class="kicker" style="margin-top:30px">The mechanism</div>
     <h2 class="title">Simulation: policy &rarr; decision &rarr; <em>outcome</em></h2>
-    <div class="split">
-      <div class="text">
-        <p class="body">A policy changes an individual's circumstances &middot; that person makes a decision &middot; thousands of decisions interact into a social outcome that tells us whether the policy works.</p>
-        <p class="body" style="margin-top:20px"><span class="strong">The hard part is the middle link &mdash; how each person decides.</span></p>
+    <div class="stack-hero">
+      <div class="htext">
+        <p class="body">A policy changes an individual's circumstances &middot; that person makes a decision &middot; thousands of decisions interact into a social outcome that tells us whether the policy works. <span class="strong">The hard part is the middle link &mdash; how each person decides.</span></p>
       </div>
-      <div class="figure">
+      <div class="hpic">
         <img src="assets/policy_chain.jpg" alt="From Policy to Social Outcome: a five-step chain — 1 Policy change, 2 People's circumstances change, 3 People decide (drive / stay on bus / walk), 4 Many decisions add up, 5 Social outcome (ridership, congestion, emissions). The middle decision step is the weak link." loading="eager" fetchpriority="high" decoding="async">
       </div>
     </div>
@@ -169,13 +177,12 @@ h2.title.green em{color:var(--green)}
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
     <div class="kicker" style="margin-top:30px">The AI approach</div>
     <h2 class="title">AI models each person</h2>
-    <div class="split">
-      <div class="text">
-        <p class="body">Instead of one rule for everyone, each person gets their own AI agent &mdash; and its <span class="strong">brain is an LLM</span>.</p>
-        <p class="body" style="margin-top:18px">Each agent is given a profile of its person &mdash; income, location, but also habits, preferences, personality traits. It weighs that whole bundle of factors to decide, as a real person would.</p>
-        <p class="body" style="margin-top:18px">That sounds ideal &mdash; but the agent works by <em>predicting</em>, not by knowing.</p>
+    <div class="stack-hero compact">
+      <div class="htext">
+        <p class="body">Instead of one rule for everyone, each person gets their own AI agent &mdash; and its <span class="strong">brain is an LLM</span>. Each agent is given a profile of its person &mdash; income, location, but also habits, preferences, personality traits &mdash; and weighs that whole bundle to decide, as a real person would.</p>
+        <p class="body">That sounds ideal &mdash; but the agent works by <em>predicting</em>, not by knowing.</p>
       </div>
-      <div class="figure">
+      <div class="hpic">
         <img src="assets/ai_agents_each_person.jpg" alt="Each person has their own AI agent with an LLM brain, deciding from their own context: car owner, low-income worker, nearby walker" loading="eager" fetchpriority="high" decoding="async">
       </div>
     </div>
@@ -189,13 +196,11 @@ h2.title.green em{color:var(--green)}
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
     <div class="kicker" style="margin-top:30px">The catch</div>
     <h2 class="title">How the LLM predicts &mdash; it does not <em>know</em></h2>
-    <div class="split">
-      <div class="text">
-        <p class="body">The principle is simple. The LLM reads a sentence, then predicts the most likely next word &mdash; it assigns a probability to each candidate and picks the highest.</p>
-        <p class="body" style="margin-top:18px">It does not look up a correct answer; it generates the most likely-sounding one.</p>
-        <p class="body" style="margin-top:18px">So its decision is always a guess, never a fact.</p>
+    <div class="stack-hero compact">
+      <div class="htext">
+        <p class="body">The principle is simple. The LLM reads a sentence, then predicts the most likely next word &mdash; it assigns a probability to each candidate and picks the highest. It does not look up a correct answer; it generates the most likely-sounding one. So its decision is always a guess, never a fact.</p>
       </div>
-            <div class="figure">
+      <div class="hpic">
         <img src="assets/llm_next_token.jpg" alt="LLM = Next-Token Prediction: 1 Context (The report says the cat was on the floor.) prompts 'A cat sat on the ____'; 2 Next-token probabilities — rat 62%, floor 24%, mat 8%, chair 3%; 3 Selected token (greedy) = rat (wrong), ground truth = floor. Key idea: LLMs don't know the correct answer, they predict what is most likely." loading="eager" fetchpriority="high" decoding="async">
       </div>
     </div>
@@ -206,12 +211,14 @@ h2.title.green em{color:var(--green)}
 <section class="slide">
   <div class="slide-pad center-slide">
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:64px;flex:1;min-height:0;margin-top:24px">
-      <img src="assets/tom_jerry.jpg" alt="Tom standing on Jerry — a cat really can sit on a rat, but only in cartoons." style="max-width:46%;max-height:78%;border-radius:18px;object-fit:contain" loading="lazy" decoding="async">
-      <div style="max-width:44%">
-        <div class="kicker orange" style="margin-bottom:20px">A guess, not a fact</div>
-        <p class="body" style="font-size:30px;line-height:1.5;color:var(--ink)">No cat would actually sit on a rat &mdash; <em>unless it&rsquo;s Tom and Jerry.</em></p>
-        <p class="body" style="margin-top:22px">The model picks what sounds most likely, not what is true. That is the limit of predicting.</p>
+    <div class="stack-hero">
+      <div class="hpic" style="margin-top:18px">
+        <img src="assets/tom_jerry.jpg" alt="Tom standing on Jerry — a cat really can sit on a rat, but only in cartoons." style="max-height:62%;border-radius:18px" loading="lazy" decoding="async">
+      </div>
+      <div class="htext" style="text-align:center;max-width:1200px;align-self:center">
+        <div class="kicker orange" style="margin-bottom:16px">A guess, not a fact</div>
+        <p class="body" style="font-size:30px;line-height:1.45;color:var(--ink)">No cat would actually sit on a rat &mdash; <em>unless it&rsquo;s Tom and Jerry.</em></p>
+        <p class="body" style="margin-top:16px">The model picks what sounds most likely, not what is true. That is the limit of predicting.</p>
       </div>
     </div>
   </div>
