@@ -25,7 +25,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg)}
 main{position:absolute;inset:0}
 .slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;display:block;visibility:hidden;opacity:0;pointer-events:none;background:var(--bg)}
 .slide.active{visibility:visible;opacity:1;pointer-events:auto;z-index:1}
-img{max-width:100%;max-height:100%}
+img{width:100%;height:100%;object-fit:contain;object-position:center}
 
 .slide-pad{position:absolute;inset:0;padding:96px 132px;display:flex;flex-direction:column}
 .topbar{position:absolute;top:46px;left:132px;right:132px;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-body);font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;z-index:5}
@@ -54,7 +54,7 @@ h2.title.green em{color:var(--green)}
 /* layout: text left, figure right */
 .split{display:flex;gap:72px;flex:1;min-height:0;margin-top:44px;align-items:stretch}
 .split .text{flex:1.05;display:flex;flex-direction:column;min-width:0}
-.split .figure{flex:1;display:flex;flex-direction:column;min-width:0}
+.split .figure{flex:1;display:flex;flex-direction:column;min-width:0;justify-content:center;align-items:stretch}
 /* layout: figure full width under text */
 .stack{display:flex;flex-direction:column;flex:1;min-height:0;margin-top:40px;gap:36px}
 .stack .body{max-width:1500px}
@@ -104,7 +104,7 @@ h2.title.green em{color:var(--green)}
         <p class="body" style="margin-top:18px"><span class="strong">Test policies before we launch them.</span></p>
       </div>
       <div class="figure">
-        <svg viewBox="0 0 760 540" width="760" height="540" xmlns="http://www.w3.org/2000/svg" font-family="'Manrope','Helvetica Neue',sans-serif" style="max-width:100%;max-height:100%">
+        <svg viewBox="0 0 760 540" xmlns="http://www.w3.org/2000/svg" font-family="'Manrope','Helvetica Neue',sans-serif" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;max-height:100%;display:block">
         <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6" fill="#1a1a1a"/></marker></defs>
         <rect x="40" y="120" width="190" height="160" rx="16" fill="#e3f3e6" stroke="#15803d" stroke-width="3"/>
         <text x="135" y="196" font-size="23" text-anchor="middle" fill="#1a1a1a" font-weight="700">Good intent</text>
@@ -161,7 +161,7 @@ h2.title.green em{color:var(--green)}
         <p class="body" style="margin-top:18px"><span class="strong">One rule, one number &mdash; real people give three answers.</span></p>
       </div>
       <div class="figure">
-        <svg viewBox="0 0 760 540" width="760" height="540" xmlns="http://www.w3.org/2000/svg" font-family="'Manrope','Helvetica Neue',sans-serif" style="max-width:100%;max-height:100%">
+        <svg viewBox="0 0 760 540" xmlns="http://www.w3.org/2000/svg" font-family="'Manrope','Helvetica Neue',sans-serif" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;max-height:100%;display:block">
         <rect x="40" y="70" width="680" height="60" rx="10" fill="#fde8e8" stroke="#e6b8b8" stroke-width="1.5"/>
         <text x="380" y="108" font-size="22" text-anchor="middle" fill="#b91c1c" font-weight="700">Fixed rule: &minus;5% ridership for everyone</text>
         <line x1="380" y1="138" x2="380" y2="168" stroke="#9a958a" stroke-width="2.5"/>
