@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Based Policy Simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbfaf6; --bg2:#f6f4ec; --ink:#1a1a1a; --ink-soft:#5b5b5b; --ink-faint:#9a958a;
+  --line:#e6e2d6; --line-strong:#cfc9b8; --panel:#f3f0e7; --panel2:#efece2;
+  --accent:#0f766e; --accent-soft:#e3f1ef;
+  --accent2:#c2410c; --accent2-soft:#fbe6dd;
+  --red:#b91c1c; --red-soft:#fde8e8;
+  --green:#15803d; --green-soft:#e3f3e6;
+  --amber:#b45309; --amber-soft:#fef0dc;
+  --font-display:'Newsreader',serif; --font-body:'Manrope',sans-serif; --font-mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg)}
+.deck-viewport{position:fixed;inset:0;overflow:hidden;background:var(--bg)}
+.deck-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;background:var(--bg)}
+main{position:absolute;inset:0}
+.slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;display:block;visibility:hidden;opacity:0;pointer-events:none;background:var(--bg)}
+.slide.active{visibility:visible;opacity:1;pointer-events:auto;z-index:1}
+img{max-width:100%;max-height:100%}
+
+.slide-pad{position:absolute;inset:0;padding:96px 132px;display:flex;flex-direction:column}
+.topbar{position:absolute;top:46px;left:132px;right:132px;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-body);font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;z-index:5}
+.topbar .dot{display:inline-block;width:8px;height:8px;background:var(--accent);border-radius:50%;margin-right:12px;vertical-align:middle}
+.cite{position:absolute;bottom:48px;left:132px;font-family:var(--font-body);font-size:15px;color:var(--ink-faint);font-style:italic;z-index:5}
+
+.kicker{font-family:var(--font-body);font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:22px}
+.kicker.orange{color:var(--accent2)}
+.kicker.red{color:var(--red)}
+.kicker.green{color:var(--green)}
+.kicker.amber{color:var(--amber)}
+
+h1.title{font-family:var(--font-display);font-weight:500;font-size:78px;line-height:1.04;color:var(--ink);letter-spacing:-.015em}
+h1.title em{font-style:italic;color:var(--accent2);font-weight:400}
+h2.title{font-family:var(--font-display);font-weight:500;font-size:56px;line-height:1.08;color:var(--ink);letter-spacing:-.01em}
+h2.title em{font-style:italic;color:var(--accent2);font-weight:400}
+h2.title.red em{color:var(--red)}
+h2.title.green em{color:var(--green)}
+
+.lead{font-family:var(--font-body);font-weight:300;font-size:27px;color:var(--ink-soft);line-height:1.46;max-width:1500px}
+.body{font-family:var(--font-body);font-weight:400;font-size:24px;color:var(--ink-soft);line-height:1.55}
+.body.strong{color:var(--ink);font-weight:500}
+.body em{font-style:italic}
+.rule{width:72px;height:3px;background:var(--accent);margin:30px 0}
+
+/* layout: text left, figure right */
+.split{display:flex;gap:72px;flex:1;min-height:0;margin-top:44px;align-items:stretch}
+.split .text{flex:1.05;display:flex;flex-direction:column;min-width:0}
+.split .figure{flex:1;display:flex;flex-direction:column;min-width:0}
+/* layout: figure full width under text */
+.stack{display:flex;flex-direction:column;flex:1;min-height:0;margin-top:40px;gap:36px}
+.stack .body{max-width:1500px}
+
+/* image placeholder */
+.figbox{flex:1;border:2px dashed var(--line-strong);border-radius:18px;background:var(--panel2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;min-height:300px}
+.figbox .figlabel{font-family:var(--font-mono);font-size:18px;color:var(--ink-faint);letter-spacing:.06em}
+.figbox .figdesc{font-family:var(--font-body);font-size:20px;color:var(--ink-faint);text-align:center;max-width:80%;line-height:1.45}
+
+/* centered title slide */
+.center-slide{justify-content:center;align-items:flex-start}
+
+/* conclusion big statement */
+.statement{font-family:var(--font-display);font-weight:500;font-size:112px;line-height:.98;color:var(--ink);letter-spacing:-.02em}
+.statement em{font-style:italic;color:var(--accent2);font-weight:400}
+.statement .neq{color:var(--accent2);font-weight:400}
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+<div class="deck-stage" id="deckStage">
+<main>
+
+<!-- SLIDE 1: TITLE -->
+<section class="slide">
+  <div class="slide-pad center-slide">
+    <div class="kicker">Reading into Speaking &middot; Oral Presentation</div>
+    <h1 class="title">An Outline and Evaluation of<br><em>AI-Based Policy Simulation</em></h1>
+    <div class="rule"></div>
+    <p class="lead" style="max-width:1040px">Good policy can still cause harm &mdash; simulation lets us test a policy before we launch it. But what if the test itself is only a guess?</p>
+  </div>
+  <div class="topbar"><span><span class="dot"></span>Introduction</span><span>1 / 15</span></div>
+</section>
+
+<!-- SLIDE 2: GOOD POLICY CAN STILL CAUSE HARM -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>2 / 15</span></div>
+    <div class="kicker" style="margin-top:30px">The motivation</div>
+    <h2 class="title">Good policy can still <em>cause harm</em></h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">A minimum-wage rise meant to help low-paid workers earn more &mdash; yet some small businesses cannot absorb the cost, so they cut staff.</p>
+        <p class="body" style="margin-top:20px">The workers the policy was meant to protect are the ones who lose their jobs. Good intentions are not enough.</p>
+        <p class="body" style="margin-top:18px"><span class="strong">Test policies before we launch them.</span></p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">Intent &rarr; business response &rarr; harm: a three-step causal chain, green to red.<br><em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+    <div class="cite">Neumark et al. (2014)</div>
+  </div>
+</section>
+
+<!-- SLIDE 3: THE CHAIN -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>3 / 15</span></div>
+    <div class="kicker" style="margin-top:30px">The mechanism</div>
+    <h2 class="title">Simulation: policy &rarr; decision &rarr; <em>outcome</em></h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">A policy changes an individual's circumstances &middot; that person makes a decision &middot; thousands of decisions interact into a social outcome that tells us whether the policy works.</p>
+        <p class="body" style="margin-top:20px"><span class="strong">The hard part is the middle link &mdash; how each person decides.</span></p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">Policy &rarr; individual decision &rarr; social outcome.<br>The middle box highlighted as the weak link.<br><em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4: ONE FARE RISE, THREE REACTIONS -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>4 / 15</span></div>
+    <div class="kicker" style="margin-top:30px">The traditional approach</div>
+    <h2 class="title">One fare rise, <em>three</em> reactions</h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">A ten per cent fare rise. A traditional model applies one fixed rule to everyone: <span class="strong">&minus;5% ridership across the board.</span></p>
+        <p class="body" style="margin-top:18px">But real people respond differently:</p>
+        <p class="body" style="margin-top:8px">a car owner may drive &middot; a low-income worker may pay more &middot; a nearby walker may walk.</p>
+        <p class="body" style="margin-top:18px"><span class="strong">One rule, one number &mdash; real people give three answers.</span></p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">One &minus;5% rule for all vs three real reactions:<br>drive &middot; pay more &middot; walk.<br><em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: AI MODELS EACH PERSON -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>5 / 15</span></div>
+    <div class="kicker" style="margin-top:30px">The AI approach</div>
+    <h2 class="title">AI models each person</h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">Instead of one rule for everyone, each person gets their own AI agent &mdash; and its <span class="strong">brain is an LLM</span>.</p>
+        <p class="body" style="margin-top:18px">Each agent is given a profile of its person &mdash; income, location, but also habits, preferences, personality traits. It weighs that whole bundle of factors to decide, as a real person would.</p>
+        <p class="body" style="margin-top:18px">That sounds ideal &mdash; but the agent works by <em>predicting</em>, not by knowing.</p>
+      </div>
+      <div class="figure">
+        <img src="assets/ai_agents_each_person.png" alt="Each person has their own AI agent with an LLM brain, deciding from their own context: car owner, low-income worker, nearby walker">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6: HOW THE LLM PREDICTS -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>6 / 15</span></div>
+    <div class="kicker" style="margin-top:30px">The catch</div>
+    <h2 class="title">How the LLM predicts &mdash; it does not <em>know</em></h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">The principle is simple. The LLM reads a sentence, then predicts the most likely next word &mdash; it assigns a probability to each candidate and picks the highest.</p>
+        <p class="body" style="margin-top:18px">It does not look up a correct answer; it generates the most likely-sounding one.</p>
+        <p class="body" style="margin-top:18px">So its decision is always a guess, never a fact.</p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">"The cat sat on the ___" &mdash; next-word<br>probabilities: mat 70%, floor 15%, roof 10%.<br><em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7: ERROR PROPAGATES -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>Introduction</span><span>7 / 15</span></div>
+    <div class="kicker red" style="margin-top:30px">The consequence</div>
+    <h2 class="title red">A small guess <em>grows</em> down the chain</h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">That guess does not stay contained. A small error at the decision step feeds into the rest of the chain.</p>
+        <p class="body" style="margin-top:18px">And it grows at every step after it. If the first link is a guess, every link after it inherits &mdash; and magnifies &mdash; that uncertainty.</p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">Error ripple growing across the chain:<br>small at decision, larger at interaction,<br>largest at outcome. <em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8: NOBODY CHECKED -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>The problem</span><span>8 / 15</span></div>
+    <div class="kicker red" style="margin-top:30px">The real problem</div>
+    <h2 class="title red">Nobody <em>checked</em></h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">Where does it break down? Nobody has checked whether the AI's prediction is correct.</p>
+        <p class="body" style="margin-top:18px">Researchers set up the AI, give it a scenario, record its response &mdash; but never compare it with real data. They say they will check it later, and move on.</p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">What researchers do (set up &middot; scenario &middot; record)<br>vs what they skip (compare with real behaviour).<br><em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: THE EVIDENCE 15/35 -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>The problem</span><span>9 / 15</span></div>
+    <div class="kicker" style="margin-top:30px">The evidence</div>
+    <h2 class="title"><em>15 of 35</em> studies self-judged</h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">A review by Larooij and Törnberg confirms this pattern. Out of 35 studies they surveyed, 15 relied only on the researchers' own judgement to say whether the simulation was accurate.</p>
+        <p class="body" style="margin-top:18px">Some studies even used an AI to judge another AI. That is circular reasoning: the judge has the same blind spots as the system it is judging.</p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">Donut: 15/35 self-judged.<br>Loop: AI judging AI &mdash; circular reasoning.<br><em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+    <div class="cite">Larooij &amp; Törnberg (2025)</div>
+  </div>
+</section>
+
+<!-- SLIDE 10: THREE APPROACHES -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>The response</span><span>10 / 15</span></div>
+    <div class="kicker" style="margin-top:30px">What researchers tried</div>
+    <h2 class="title">Three approaches &mdash; <em>none</em> checked the decision</h2>
+    <div class="split">
+      <div class="text">
+        <p class="body"><span class="strong">GPLab</span> &mdash; agents with memory and emotion, weighing options not following rules.</p>
+        <p class="body" style="margin-top:14px"><span class="strong">Split model</span> &mdash; the LLM decides individually; a separate model handles interaction.</p>
+        <p class="body" style="margin-top:14px"><span class="strong">Self-report agents</span> &mdash; built from real people's own survey answers.</p>
+        <p class="body" style="margin-top:18px">Each has a strength. But none solves the core problem &mdash; <span class="strong">not one compared with what real passengers did.</span></p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">Three cards: GPLab &middot; split model &middot;<br>self-report agents. Each with strength &amp; gap.<br><em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+    <div class="cite">Zhang et al. (2026); Ghaffarzadegan et al. (2024); Park et al. (2024)</div>
+  </div>
+</section>
+
+<!-- SLIDE 11: THE FIX -->
+<section class="slide">
+  <div class="slide-pad">
+   <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>11 / 15</span></div>
+    <div class="kicker green" style="margin-top:30px">The fix</div>
+    <h2 class="title green">An <em>evaluation system</em> for the decision step</h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">If none checked the decision, what would fix it? An evaluation system for the decision step.</p>
+        <p class="body" style="margin-top:18px"><span class="strong">Two aims</span> &mdash; verify whether the simulation is accurate; and where it is not, pinpoint the root cause and iterate.</p>
+        <p class="body" style="margin-top:18px"><span class="strong">Three components</span> &mdash; benchmark, rubric, mechanism. The fare rise shows how they fit together.</p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">Two aims (verify, iterate) over three<br>components: ① benchmark ② rubric ③ mechanism.<br><em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12: BENCHMARK -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>12 / 15</span></div>
+    <div class="kicker green" style="margin-top:30px">Component 1</div>
+    <h2 class="title green">&#9312; Benchmark &mdash; compare with <em>real data</em></h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">First, run the fare rise in the simulation &mdash; the agents predict, say, a five per cent drop.</p>
+        <p class="body" style="margin-top:18px">The benchmark compares that prediction against the real ridership records from the last actual fare change.</p>
+        <p class="body" style="margin-top:18px">Does the prediction match what actually happened? That is the first check.</p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">Simulation &minus;5% vs real records &minus;5%.<br>Match? check. <em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 13: RUBRIC -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>13 / 15</span></div>
+    <div class="kicker green" style="margin-top:30px">Component 2</div>
+    <h2 class="title green">&#9313; Rubric &mdash; the right <em>people</em></h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">But matching the total is not enough &mdash; that is where the rubric comes in. The drop has to fall on the right people.</p>
+        <p class="body" style="margin-top:18px">If the agents say car owners switched to driving, but the real records show the drop came from low-income riders instead, the simulation has the right number for the wrong reason, and it fails.</p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">Two bars, same &minus;5% total but different<br>groups: sim = car owners, real = low-income.<br>Same number, wrong reason. <em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 14: MECHANISM -->
+<section class="slide">
+  <div class="slide-pad">
+    <div class="topbar"><span><span class="dot"></span>The evaluation</span><span>14 / 15</span></div>
+    <div class="kicker green" style="margin-top:30px">Component 3</div>
+    <h2 class="title green">&#9314; Mechanism &mdash; fix the agent, <em>run again</em></h2>
+    <div class="split">
+      <div class="text">
+        <p class="body">Third, the mechanism: find the agent that mis-decided, adjust it, and run again.</p>
+        <p class="body" style="margin-top:18px">Each round moves the prediction closer to the real records.</p>
+        <p class="body" style="margin-top:18px">So together &mdash; benchmark, rubric, mechanism &mdash; the system checks the decision step against real data, and where it falls short, fixes it. But no system is perfect, and this one has its limits.</p>
+      </div>
+      <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">Convergence over 3 rounds: the gap between<br>simulation and real records shrinks to zero.<br><em>placeholder</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 15: CONCLUSION -->
+<section class="slide">
+  <div class="slide-pad center-slide">
+    <div class="kicker" style="margin-top:30px">Conclusion</div>
+    <div class="statement">Explore <span class="neq">&ne;</span> <em>predict</em></div>
+    <div class="rule" style="margin:36px 0 28px"></div>
+    <p class="lead" style="max-width:1280px">AI-based policy simulation can explore how people might respond to a policy, but it cannot yet predict what will happen. To get closer to prediction, the individual-decision step needs to be checked against real data and improved where it falls short.</p>
+    <p class="body" style="margin-top:18px;max-width:1280px">Validation needs past data &mdash; for a genuinely novel policy none exists, but calibrating where data does exist carries over. The deeper limit: the system checks only the decision step, not the whole chain. And any model used in policy must state openly what it assumes and how it was validated &mdash; so others can check its conclusions rather than take them on trust.</p>
+  </div>
+  <div class="topbar"><span><span class="dot"></span>Conclusion</span><span>15 / 15</span></div>
+  <div class="cite">Belfrage et al. (2024)</div>
+</section>
+
+  </main>
+</div>
+<script>
+class SlidePresentation{
+  constructor(){
+    this.slides=[...document.querySelectorAll('.slide')];
+    this.current=0;this.stage=document.getElementById('deckStage');
+    this.fit();addEventListener('resize',()=>this.fit());
+    this.bindKeys();this.bindTouch();this.show(0);
+  }
+  fit(){const f=Math.min(innerWidth/1920,innerHeight/1080);const x=(innerWidth-1920*f)/2,y=(innerHeight-1080*f)/2;this.stage.style.transform=`translate(${x}px,${y}px) scale(${f})`}
+  show(i){this.current=Math.max(0,Math.min(i,this.slides.length-1));this.slides.forEach((s,k)=>{s.classList.toggle('active',k===this.current)});location.hash=this.current+1}
+  next(){if(this.current<this.slides.length-1)this.show(this.current+1)}
+  prev(){if(this.current>0)this.show(this.current-1)}
+  bindKeys(){addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();this.next()}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();this.prev()}else if(e.key==='Home'){this.show(0)}else if(e.key==='End'){this.show(this.slides.length-1)}else if(e.key==='f'||e.key==='F'){document.documentElement.requestFullscreen?.()}})}
+  bindTouch(){let x0=null;addEventListener('touchstart',e=>x0=e.touches[0].clientX);addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>50){dx<0?this.next():this.prev()}x0=null})}
+}
+document.addEventListener('DOMContentLoaded',()=>{window.deck=new SlidePresentation();const h=parseInt(location.hash.slice(1));if(h&&!isNaN(h))window.deck.show(h-1)});
+</script>
+</body>
+</html>
