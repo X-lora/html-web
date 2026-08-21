@@ -73,17 +73,24 @@ h2.title.green em{color:var(--green)}
 .statement .neq{color:var(--accent2);font-weight:400}
 
 /* references list */
-.refs{list-style:none;counter-reset:ref;margin-top:8px;max-width:1500px}
+
+/* text-only case slide (no fabricated figure) */
+.case{border-left:4px solid var(--accent2);padding:6px 0 6px 34px;max-width:1560px}
+.case .clabel{font-family:var(--font-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px}
+.case .ctext{font-family:var(--font-display);font-size:30px;line-height:1.4;color:var(--ink);font-weight:400}
+.case .ctext em{font-style:italic;color:var(--accent2);font-weight:400}
+.refs{list-style:none.refs{list-style:none;counter-reset:ref;margin-top:8px;max-width:1500px}
 .refs li{counter-increment:ref;position:relative;padding-left:42px;margin-bottom:13px;font-family:var(--font-body);font-weight:400;font-size:18px;line-height:1.42;color:var(--ink-soft)}
 .refs li::before{content:counter(ref);position:absolute;left:0;top:1px;width:26px;text-align:right;font-family:var(--font-mono);font-size:15px;color:var(--accent);font-weight:600}
 .refs li em{font-style:italic}
 
-/* stacked layout: text strip on top, large centered figure below */
-.stack-hero{display:flex;flex-direction:column;flex:1;min-height:0;margin-top:34px;gap:22px}
+/* stacked layout: text strip + large centered figure */
+.stack-hero{display:flex;flex-direction:column;flex:1 1 0;min-height:0;margin-top:26px;gap:18px;overflow:hidden}
 .stack-hero .htext{flex:0 0 auto}
-.stack-hero .hpic{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center}
-.stack-hero .hpic img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:14px}
-.stack-hero.compact{gap:14px}
+.stack-hero .hpic{flex:1 1 0;min-height:0;min-width:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stack-hero .hpic img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:14px;display:block}
+.stack-hero .hpic img.caph{max-height:680px}
+.stack-hero.compact{gap:12px}
 .stack-hero.compact .body{font-size:22px;line-height:1.5}
 .stack-hero.compact .body + .body{margin-top:10px}
 </style></style></style>
@@ -99,49 +106,39 @@ h2.title.green em{color:var(--green)}
 <!-- SLIDE 1: TITLE -->
 <section class="slide">
   <div class="slide-pad center-slide">
-    <div class="kicker">Reading into Speaking &middot; Oral Presentation</div>
+    <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
+    <div class="kicker">AI-Based Policy Simulation</div>
     <h1 class="title">An Outline and Evaluation of<br><em>AI-Based Policy Simulation</em></h1>
     <div class="rule"></div>
-    <p class="lead" style="max-width:1040px">Good policy can still cause harm &mdash; simulation lets us test a policy before we launch it. But what if the test itself is only a guess?</p>
+    <p class="lead" style="max-width:1100px">Hello, I'm Kairus &mdash; and today I'd like to talk about AI-based policy simulation.</p>
   </div>
-  <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
 </section>
 
 <!-- SLIDE 2: GOOD POLICY CAN STILL CAUSE HARM -->
 <section class="slide">
   <div class="slide-pad">
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker" style="margin-top:30px">The motivation</div>
+    <div class="kicker" style="margin-top:30px">The motivation &middot; a case</div>
     <h2 class="title">Good policy can still <em>cause harm</em></h2>
-    <div class="split">
-      <div class="text">
-        <p class="body">A minimum-wage rise meant to help low-paid workers earn more &mdash; yet some small businesses cannot absorb the cost, so they cut staff.</p>
-        <p class="body" style="margin-top:20px">The workers the policy was meant to protect are the ones who lose their jobs. Good intentions are not enough.</p>
-        <p class="body" style="margin-top:18px"><span class="strong">Test policies before we launch them.</span></p>
-      </div>
-            <div class="figure">
-        <div class="figbox">
-          <span class="figlabel">[ FIGURE ]</span>
-          <span class="figdesc">Intent &rarr; business response &rarr; harm: a three-step causal chain, green to red.<br><em>placeholder</em></span>
-        </div>
-      </div>
+    <div class="case" style="margin-top:36px">
+      <div class="clabel">A minimum-wage case</div>
+      <p class="ctext">A regional government raised the minimum wage so low-paid workers could earn more &mdash; <em>but some small businesses could not absorb the cost, so they let workers go.</em></p>
+      <p class="ctext" style="margin-top:18px">The low-wage employees the policy was meant to help ended up not earning more &mdash; <em>they lost their jobs instead.</em></p>
     </div>
+    <p class="body" style="margin-top:30px;max-width:1560px">So before a government launches a policy, no one can know what effects and problems it will bring. Sometimes a policy meant to do people good ends up harming them. To reduce that risk, governments can run a <span class="strong">policy simulation</span> before launching it.</p>
     <div class="cite">Neumark et al. (2014)</div>
   </div>
 </section>
 
 <!-- SLIDE 3: THE CHAIN -->
 <section class="slide">
-  <div class="slide-pad">
+  <div class="slide-pad" style="padding:64px 132px 64px">
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker" style="margin-top:30px">The mechanism</div>
-    <h2 class="title">Simulation: policy &rarr; decision &rarr; <em>outcome</em></h2>
-    <div class="stack-hero">
-      <div class="htext">
-        <p class="body">A policy changes an individual's circumstances &middot; that person makes a decision &middot; thousands of decisions interact into a social outcome that tells us whether the policy works. <span class="strong">The hard part is the middle link &mdash; how each person decides.</span></p>
-      </div>
+    <div class="kicker" style="margin-top:18px">The mechanism</div>
+    <h2 class="title" style="font-size:44px;margin-top:6px">Simulation: policy &rarr; decision &rarr; <em>outcome</em></h2>
+    <div class="stack-hero" style="margin-top:14px;gap:10px">
       <div class="hpic">
-        <img src="assets/policy_chain.jpg" alt="From Policy to Social Outcome: a five-step chain — 1 Policy change, 2 People's circumstances change, 3 People decide (drive / stay on bus / walk), 4 Many decisions add up, 5 Social outcome (ridership, congestion, emissions). The middle decision step is the weak link." loading="eager" fetchpriority="high" decoding="async">
+        <img src="assets/policy_chain.jpg" alt="From Policy to Social Outcome: a five-step chain. The middle decision step is the weak link." loading="eager" fetchpriority="high" decoding="async">
       </div>
     </div>
   </div>
@@ -149,73 +146,61 @@ h2.title.green em{color:var(--green)}
 
 <!-- SLIDE 4: ONE FARE RISE, THREE REACTIONS -->
 <section class="slide">
-  <div class="slide-pad">
+  <div class="slide-pad" style="padding:64px 132px 56px">
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker" style="margin-top:30px">The traditional approach</div>
-    <h2 class="title">One fare rise, <em>three</em> reactions</h2>
-    <div class="split">
-      <div class="text">
-        <p class="body">A ten per cent fare rise. A traditional model applies one fixed rule to everyone: <span class="strong">&minus;5% ridership across the board.</span></p>
-        <p class="body" style="margin-top:18px">But real people respond differently:</p>
-        <p class="body" style="margin-top:8px">a car owner may drive &middot; a low-income worker may pay more &middot; a nearby walker may walk.</p>
-        <p class="body" style="margin-top:18px"><span class="strong">One rule, one number &mdash; real people give three answers.</span></p>
+    <div class="kicker" style="margin-top:18px">The traditional approach</div>
+    <h2 class="title" style="font-size:44px;margin-top:6px">One fare rise, <em>three</em> reactions</h2>
+    <div class="stack-hero" style="margin-top:14px;gap:10px">
+      <div class="htext">
+        <p class="body" style="font-size:21px;line-height:1.5">The traditional approach is, in essence, a fixed set of rules: <span class="strong">every 10% fare rise cuts passengers within 10 km by 5%, beyond 10 km by 2%.</span> But if your fare went up, would you still ride? It depends on a bike, the rain, even how lazy or afraid of driving you are &mdash; something a fixed rule cannot capture.</p>
       </div>
-            <div class="figure">
-        <div class="figbox">
-          <span class="figlabel">[ FIGURE ]</span>
-          <span class="figdesc">One &minus;5% rule for all vs three real reactions:<br>drive &middot; pay more &middot; walk.<br><em>placeholder</em></span>
-        </div>
+      <div class="hpic">
+        <img src="assets/bus_fare_rule.jpg" alt="Traditional simulation: a fixed rule applied to everyone — a 10% fare increase leads to a 5% decrease in ridership for everyone." loading="eager" decoding="async">
       </div>
     </div>
-  </div>
     <div class="cite">Ghaffarzadegan et al. (2024); Jamali &amp; Lazarova-Molnar (2026)</div>
+  </div>
 </section>
 
 <!-- SLIDE 5: AI MODELS EACH PERSON -->
 <section class="slide">
-  <div class="slide-pad">
+  <div class="slide-pad" style="padding:64px 132px 56px">
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker" style="margin-top:30px">The AI approach</div>
-    <h2 class="title">AI models each person</h2>
-    <div class="stack-hero compact">
-      <div class="htext">
-        <p class="body">Instead of one rule for everyone, each person gets their own AI agent &mdash; and its <span class="strong">brain is an LLM</span>. Each agent is given a profile of its person &mdash; income, location, but also habits, preferences, personality traits &mdash; and weighs that whole bundle to decide, as a real person would.</p>
-        <p class="body">That sounds ideal &mdash; but the agent works by <em>predicting</em>, not by knowing.</p>
-      </div>
+    <div class="kicker" style="margin-top:18px">The AI approach</div>
+    <h2 class="title" style="font-size:44px;margin-top:6px">AI models each person</h2>
+    <div class="stack-hero" style="margin-top:14px;gap:8px">
       <div class="hpic">
-        <img src="assets/ai_agents_each_person.jpg" alt="Each person has their own AI agent with an LLM brain, deciding from their own context: car owner, low-income worker, nearby walker" loading="eager" fetchpriority="high" decoding="async">
+        <img src="assets/ai_agents_each_person.jpg" alt="Each person has their own AI agent with an LLM brain, deciding from their own context." loading="eager" fetchpriority="high" decoding="async">
       </div>
     </div>
-  </div>
     <div class="cite">Zhang, Peng &amp; Ren (2026)</div>
+  </div>
 </section>
 
 <!-- SLIDE 6: HOW THE LLM PREDICTS -->
 <section class="slide">
-  <div class="slide-pad">
+  <div class="slide-pad" style="padding:64px 132px 56px">
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker" style="margin-top:30px">The catch</div>
-    <h2 class="title">How the LLM predicts &mdash; it does not <em>know</em></h2>
-    <div class="stack-hero compact">
-      <div class="htext">
-        <p class="body">The principle is simple. The LLM reads a sentence, then predicts the most likely next word &mdash; it assigns a probability to each candidate and picks the highest. It does not look up a correct answer; it generates the most likely-sounding one. So its decision is always a guess, never a fact.</p>
-      </div>
+    <div class="kicker" style="margin-top:18px">The catch</div>
+    <h2 class="title" style="font-size:44px;margin-top:6px">How the LLM predicts &mdash; it does not <em>know</em></h2>
+    <div class="stack-hero" style="margin-top:14px;gap:8px">
       <div class="hpic">
-        <img src="assets/llm_next_token.jpg" alt="LLM = Next-Token Prediction: 1 Context (The report says the cat was on the floor.) prompts 'A cat sat on the ____'; 2 Next-token probabilities — rat 62%, floor 24%, mat 8%, chair 3%; 3 Selected token (greedy) = rat (wrong), ground truth = floor. Key idea: LLMs don't know the correct answer, they predict what is most likely." loading="eager" fetchpriority="high" decoding="async">
+        <img src="assets/llm_next_token.jpg" alt="LLM = Next-Token Prediction: predicts a probability distribution over the next token, then selects the most likely one — but the most likely answer is not always the correct one." style="max-height:96%" loading="eager" fetchpriority="high" decoding="async">
       </div>
     </div>
-  </div>
     <div class="cite">Ji et al. (2023)</div>
+  </div>
 </section>
+
 <!-- SLIDE 7: TOM & JERRY (transition) -->
 <section class="slide">
   <div class="slide-pad center-slide">
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
     <div class="stack-hero">
       <div class="hpic" style="margin-top:18px">
-        <img src="assets/tom_jerry.jpg" alt="Tom standing on Jerry — a cat really can sit on a rat, but only in cartoons." style="max-height:62%;border-radius:18px" loading="lazy" decoding="async">
+        <img src="assets/tom_jerry.jpg" alt="Tom sitting on Jerry — a cat really can sit on a rat, but only in cartoons." style="max-height:58%;border-radius:18px" loading="lazy" decoding="async">
       </div>
-      <div class="htext" style="text-align:center;max-width:1200px;align-self:center">
+      <div class="htext" style="text-align:center;max-width:1240px;align-self:center">
         <div class="kicker orange" style="margin-bottom:16px">A guess, not a fact</div>
         <p class="body" style="font-size:30px;line-height:1.45;color:var(--ink)">Tom can sit on Jerry. An LLM only outputs the <em>most likely</em> result &mdash; but as situations differ, it will inevitably make mistakes.</p>
       </div>
@@ -223,17 +208,13 @@ h2.title.green em{color:var(--green)}
   </div>
 </section>
 
-
 <!-- SLIDE 8: ERROR PROPAGATES -->
 <section class="slide">
-  <div class="slide-pad">
+  <div class="slide-pad" style="padding:64px 132px 56px">
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker red" style="margin-top:30px">The consequence</div>
-    <h2 class="title red">A small guess <em>grows</em> down the chain</h2>
-    <div class="stack-hero">
-      <div class="htext">
-        <p class="body">Remember the policy-simulation flow? If a small error appears at the individual-decision step, it is amplified at every stage after it &mdash; until the social outcome deviates completely.</p>
-      </div>
+    <div class="kicker red" style="margin-top:18px">The consequence</div>
+    <h2 class="title red" style="font-size:44px;margin-top:6px">A small guess <em>grows</em> down the chain</h2>
+    <div class="stack-hero" style="margin-top:14px;gap:10px">
       <div class="hpic">
         <img src="assets/error_propagation.jpg" alt="A small error at the individual-decision step grows through individual behaviour into a large error in the social outcome — amplified at each stage." loading="lazy" decoding="async">
       </div>
