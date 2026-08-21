@@ -74,6 +74,7 @@ h2.title.green em{color:var(--green)}
 </style>
   <link rel="preload" as="image" href="assets/policy_chain.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="assets/ai_agents_each_person.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/llm_next_token.jpg" fetchpriority="high">
 </head>
 <body>
 <div class="deck-viewport">
@@ -103,26 +104,11 @@ h2.title.green em{color:var(--green)}
         <p class="body" style="margin-top:20px">The workers the policy was meant to protect are the ones who lose their jobs. Good intentions are not enough.</p>
         <p class="body" style="margin-top:18px"><span class="strong">Test policies before we launch them.</span></p>
       </div>
-      <div class="figure">
-        <svg viewBox="0 0 760 540" xmlns="http://www.w3.org/2000/svg" font-family="'Manrope','Helvetica Neue',sans-serif" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;max-height:100%;display:block">
-        <defs><marker id="a2" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6" fill="#1a1a1a"/></marker></defs>
-        <rect x="40" y="120" width="190" height="160" rx="16" fill="#e3f3e6" stroke="#15803d" stroke-width="3"/>
-        <text x="135" y="196" font-size="23" text-anchor="middle" fill="#1a1a1a" font-weight="700">Good intent</text>
-        <text x="135" y="228" font-size="17" text-anchor="middle" fill="#5b5b5b">Raise minimum wage</text>
-        <line x1="240" y1="200" x2="290" y2="200" stroke="#1a1a1a" stroke-width="3" marker-end="url(#a2)"/>
-        <rect x="300" y="120" width="200" height="160" rx="16" fill="#fef0dc" stroke="#b45309" stroke-width="3"/>
-        <text x="400" y="190" font-size="23" text-anchor="middle" fill="#1a1a1a" font-weight="700">Business response</text>
-        <text x="400" y="222" font-size="16" text-anchor="middle" fill="#5b5b5b">Cannot absorb cost</text>
-        <text x="400" y="246" font-size="16" text-anchor="middle" fill="#5b5b5b">&rarr; cut staff</text>
-        <line x1="510" y1="200" x2="560" y2="200" stroke="#1a1a1a" stroke-width="3" marker-end="url(#a2)"/>
-        <rect x="570" y="120" width="180" height="160" rx="16" fill="#fde8e8" stroke="#b91c1c" stroke-width="3"/>
-        <text x="660" y="196" font-size="23" text-anchor="middle" fill="#1a1a1a" font-weight="700">Harm</text>
-        <text x="660" y="228" font-size="17" text-anchor="middle" fill="#5b5b5b">Workers lose jobs</text>
-        <rect x="40" y="340" width="710" height="14" rx="7" fill="url(#g2)"/>
-        <defs><linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#15803d"/><stop offset="0.5" stop-color="#b45309"/><stop offset="1" stop-color="#b91c1c"/></linearGradient></defs>
-        <text x="40" y="388" font-size="20" fill="#9a958a">Good intentions</text>
-        <text x="750" y="388" font-size="20" fill="#b91c1c" text-anchor="end">real harm</text>
-      </svg>
+            <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">Intent &rarr; business response &rarr; harm: a three-step causal chain, green to red.<br><em>placeholder</em></span>
+        </div>
       </div>
     </div>
     <div class="cite">Neumark et al. (2014)</div>
@@ -160,23 +146,11 @@ h2.title.green em{color:var(--green)}
         <p class="body" style="margin-top:8px">a car owner may drive &middot; a low-income worker may pay more &middot; a nearby walker may walk.</p>
         <p class="body" style="margin-top:18px"><span class="strong">One rule, one number &mdash; real people give three answers.</span></p>
       </div>
-      <div class="figure">
-        <svg viewBox="0 0 760 540" xmlns="http://www.w3.org/2000/svg" font-family="'Manrope','Helvetica Neue',sans-serif" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;max-height:100%;display:block">
-        <rect x="40" y="70" width="680" height="60" rx="10" fill="#fde8e8" stroke="#e6b8b8" stroke-width="1.5"/>
-        <text x="380" y="108" font-size="22" text-anchor="middle" fill="#b91c1c" font-weight="700">Fixed rule: &minus;5% ridership for everyone</text>
-        <line x1="380" y1="138" x2="380" y2="168" stroke="#9a958a" stroke-width="2.5"/>
-        <text x="380" y="160" font-size="16" text-anchor="middle" fill="#9a958a">but real people respond differently</text>
-        <rect x="40" y="190" width="210" height="150" rx="14" fill="#e3f1ef" stroke="#0f766e" stroke-width="2.5"/>
-        <text x="145" y="226" font-size="20" text-anchor="middle" fill="#0f766e" font-weight="700">Car owner</text>
-        <text x="145" y="280" font-size="34" text-anchor="middle" fill="#1a1a1a" font-weight="700">drive</text>
-        <rect x="275" y="190" width="210" height="150" rx="14" fill="#fef0dc" stroke="#b45309" stroke-width="2.5"/>
-        <text x="380" y="226" font-size="20" text-anchor="middle" fill="#b45309" font-weight="700">Low-income</text>
-        <text x="380" y="280" font-size="34" text-anchor="middle" fill="#1a1a1a" font-weight="700">pay more</text>
-        <rect x="510" y="190" width="210" height="150" rx="14" fill="#efece2" stroke="#1a1a1a" stroke-width="2.5"/>
-        <text x="615" y="226" font-size="20" text-anchor="middle" fill="#1a1a1a" font-weight="700">Nearby walker</text>
-        <text x="615" y="280" font-size="34" text-anchor="middle" fill="#1a1a1a" font-weight="700">walk</text>
-        <text x="380" y="400" font-size="22" text-anchor="middle" fill="#5b5b5b" font-style="italic">One rule, one number &mdash; three answers</text>
-      </svg>
+            <div class="figure">
+        <div class="figbox">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc">One &minus;5% rule for all vs three real reactions:<br>drive &middot; pay more &middot; walk.<br><em>placeholder</em></span>
+        </div>
       </div>
     </div>
   </div>
@@ -213,11 +187,8 @@ h2.title.green em{color:var(--green)}
         <p class="body" style="margin-top:18px">It does not look up a correct answer; it generates the most likely-sounding one.</p>
         <p class="body" style="margin-top:18px">So its decision is always a guess, never a fact.</p>
       </div>
-      <div class="figure">
-        <div class="figbox">
-          <span class="figlabel">[ FIGURE ]</span>
-          <span class="figdesc">"The cat sat on the ___" &mdash; next-word<br>probabilities: mat 70%, floor 15%, roof 10%.<br><em>placeholder</em></span>
-        </div>
+            <div class="figure">
+        <img src="assets/llm_next_token.jpg" alt="LLM = Next-Token Prediction: 1 Context (The report says the cat was on the floor.) prompts 'A cat sat on the ____'; 2 Next-token probabilities — rat 62%, floor 24%, mat 8%, chair 3%; 3 Selected token (greedy) = rat (wrong), ground truth = floor. Key idea: LLMs don't know the correct answer, they predict what is most likely." loading="eager" fetchpriority="high" decoding="async">
       </div>
     </div>
   </div>
@@ -234,7 +205,7 @@ h2.title.green em{color:var(--green)}
         <p class="body">That guess does not stay contained. A small error at the decision step feeds into the rest of the chain.</p>
         <p class="body" style="margin-top:18px">And it grows at every step after it. If the first link is a guess, every link after it inherits &mdash; and magnifies &mdash; that uncertainty.</p>
       </div>
-      <div class="figure">
+            <div class="figure">
         <div class="figbox">
           <span class="figlabel">[ FIGURE ]</span>
           <span class="figdesc">Error ripple growing across the chain:<br>small at decision, larger at interaction,<br>largest at outcome. <em>placeholder</em></span>
@@ -255,7 +226,7 @@ h2.title.green em{color:var(--green)}
         <p class="body">Where does it break down? Nobody has checked whether the AI's prediction is correct.</p>
         <p class="body" style="margin-top:18px">Researchers set up the AI, give it a scenario, record its response &mdash; but never compare it with real data. They say they will check it later, and move on.</p>
       </div>
-      <div class="figure">
+            <div class="figure">
         <div class="figbox">
           <span class="figlabel">[ FIGURE ]</span>
           <span class="figdesc">What researchers do (set up &middot; scenario &middot; record)<br>vs what they skip (compare with real behaviour).<br><em>placeholder</em></span>
@@ -276,7 +247,7 @@ h2.title.green em{color:var(--green)}
         <p class="body">A review by Larooij and Törnberg confirms this pattern. Out of 35 studies they surveyed, 15 relied only on the researchers' own judgement to say whether the simulation was accurate.</p>
         <p class="body" style="margin-top:18px">Some studies even used an AI to judge another AI. That is circular reasoning: the judge has the same blind spots as the system it is judging.</p>
       </div>
-      <div class="figure">
+            <div class="figure">
         <div class="figbox">
           <span class="figlabel">[ FIGURE ]</span>
           <span class="figdesc">Donut: 15/35 self-judged.<br>Loop: AI judging AI &mdash; circular reasoning.<br><em>placeholder</em></span>
@@ -300,7 +271,7 @@ h2.title.green em{color:var(--green)}
         <p class="body" style="margin-top:14px"><span class="strong">Self-report agents</span> &mdash; built from real people's own survey answers.</p>
         <p class="body" style="margin-top:18px">Each has a strength. But none solves the core problem &mdash; <span class="strong">not one compared with what real passengers did.</span></p>
       </div>
-      <div class="figure">
+            <div class="figure">
         <div class="figbox">
           <span class="figlabel">[ FIGURE ]</span>
           <span class="figdesc">Three cards: GPLab &middot; split model &middot;<br>self-report agents. Each with strength &amp; gap.<br><em>placeholder</em></span>
@@ -323,10 +294,10 @@ h2.title.green em{color:var(--green)}
         <p class="body" style="margin-top:18px"><span class="strong">Two aims</span> &mdash; verify whether the simulation is accurate; and where it is not, pinpoint the root cause and iterate.</p>
         <p class="body" style="margin-top:18px"><span class="strong">Three components</span> &mdash; benchmark, rubric, mechanism. The fare rise shows how they fit together.</p>
       </div>
-      <div class="figure">
+            <div class="figure">
         <div class="figbox">
           <span class="figlabel">[ FIGURE ]</span>
-          <span class="figdesc">Two aims (verify, iterate) over three<br>components: ① benchmark ② rubric ③ mechanism.<br><em>placeholder</em></span>
+          <span class="figdesc">Two aims (verify, iterate) over three<br>components: &#9312; benchmark &#9313; rubric &#9314; mechanism.<br><em>placeholder</em></span>
         </div>
       </div>
     </div>
@@ -345,7 +316,7 @@ h2.title.green em{color:var(--green)}
         <p class="body" style="margin-top:18px">The benchmark compares that prediction against the real ridership records from the last actual fare change.</p>
         <p class="body" style="margin-top:18px">Does the prediction match what actually happened? That is the first check.</p>
       </div>
-      <div class="figure">
+            <div class="figure">
         <div class="figbox">
           <span class="figlabel">[ FIGURE ]</span>
           <span class="figdesc">Simulation &minus;5% vs real records &minus;5%.<br>Match? check. <em>placeholder</em></span>
@@ -366,7 +337,7 @@ h2.title.green em{color:var(--green)}
         <p class="body">But matching the total is not enough &mdash; that is where the rubric comes in. The drop has to fall on the right people.</p>
         <p class="body" style="margin-top:18px">If the agents say car owners switched to driving, but the real records show the drop came from low-income riders instead, the simulation has the right number for the wrong reason, and it fails.</p>
       </div>
-      <div class="figure">
+            <div class="figure">
         <div class="figbox">
           <span class="figlabel">[ FIGURE ]</span>
           <span class="figdesc">Two bars, same &minus;5% total but different<br>groups: sim = car owners, real = low-income.<br>Same number, wrong reason. <em>placeholder</em></span>
@@ -388,7 +359,7 @@ h2.title.green em{color:var(--green)}
         <p class="body" style="margin-top:18px">Each round moves the prediction closer to the real records.</p>
         <p class="body" style="margin-top:18px">So together &mdash; benchmark, rubric, mechanism &mdash; the system checks the decision step against real data, and where it falls short, fixes it. But no system is perfect, and this one has its limits.</p>
       </div>
-      <div class="figure">
+            <div class="figure">
         <div class="figbox">
           <span class="figlabel">[ FIGURE ]</span>
           <span class="figdesc">Convergence over 3 rounds: the gap between<br>simulation and real records shrinks to zero.<br><em>placeholder</em></span>
