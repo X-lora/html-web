@@ -79,21 +79,20 @@ h2.title.green em{color:var(--green)}
 .case .clabel{font-family:var(--font-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px}
 .case .ctext{font-family:var(--font-display);font-size:30px;line-height:1.4;color:var(--ink);font-weight:400}
 .case .ctext em{font-style:italic;color:var(--accent2);font-weight:400}
-.refs{list-style:none.refs{list-style:none;counter-reset:ref;margin-top:8px;max-width:1500px}
+.refs{list-style:none;counter-reset:ref;margin-top:8px;max-width:1500px}
 .refs li{counter-increment:ref;position:relative;padding-left:42px;margin-bottom:13px;font-family:var(--font-body);font-weight:400;font-size:18px;line-height:1.42;color:var(--ink-soft)}
 .refs li::before{content:counter(ref);position:absolute;left:0;top:1px;width:26px;text-align:right;font-family:var(--font-mono);font-size:15px;color:var(--accent);font-weight:600}
 .refs li em{font-style:italic}
 
 /* stacked layout: text strip + large centered figure */
-.stack-hero{display:flex;flex-direction:column;flex:1 1 0;min-height:0;margin-top:26px;gap:18px;overflow:hidden}
+.stack-hero{display:flex;flex-direction:column;flex:1 1 0;min-height:0;margin-top:22px;gap:16px}
 .stack-hero .htext{flex:0 0 auto}
-.stack-hero .hpic{flex:1 1 0;min-height:0;min-width:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.stack-hero .hpic img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:14px;display:block}
-.stack-hero .hpic img.caph{max-height:680px}
+.stack-hero .hpic{flex:1 1 0;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.stack-hero .hpic img{max-width:100%;max-height:100%;height:auto;width:auto;object-fit:contain;border-radius:14px;display:block}
 .stack-hero.compact{gap:12px}
 .stack-hero.compact .body{font-size:22px;line-height:1.5}
 .stack-hero.compact .body + .body{margin-top:10px}
-</style></style></style>
+</style>
   <link rel="preload" as="image" href="assets/policy_chain.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="assets/ai_agents_each_person.jpg" fetchpriority="high">
   <link rel="preload" as="image" href="assets/llm_next_token.jpg" fetchpriority="high">
@@ -107,7 +106,7 @@ h2.title.green em{color:var(--green)}
 <section class="slide">
   <div class="slide-pad center-slide">
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker">AI-Based Policy Simulation</div>
+    <div class="kicker">Reading into Speaking &middot; Oral Presentation</div>
     <h1 class="title">An Outline and Evaluation of<br><em>AI-Based Policy Simulation</em></h1>
     <div class="rule"></div>
     <p class="lead" style="max-width:1100px">Hello, I'm Kairus &mdash; and today I'd like to talk about AI-based policy simulation.</p>
@@ -152,7 +151,7 @@ h2.title.green em{color:var(--green)}
     <h2 class="title" style="font-size:44px;margin-top:6px">One fare rise, <em>three</em> reactions</h2>
     <div class="stack-hero" style="margin-top:14px;gap:10px">
       <div class="htext">
-        <p class="body" style="font-size:21px;line-height:1.5">The traditional approach is, in essence, a fixed set of rules: <span class="strong">every 10% fare rise cuts passengers within 10 km by 5%, beyond 10 km by 2%.</span> But if your fare went up, would you still ride? It depends on a bike, the rain, even how lazy or afraid of driving you are &mdash; something a fixed rule cannot capture.</p>
+        <p class="body" style="font-size:20px;line-height:1.45">The traditional approach is, in essence, a fixed set of rules: <span class="strong">every 10% fare rise cuts passengers within 10 km by 5%, beyond 10 km by 2%.</span> But if your fare went up, would you still ride? It depends on a bike, the rain, even how lazy or afraid of driving you are &mdash; something a fixed rule cannot capture.</p>
       </div>
       <div class="hpic">
         <img src="assets/bus_fare_rule.jpg" alt="Traditional simulation: a fixed rule applied to everyone — a 10% fare increase leads to a 5% decrease in ridership for everyone." loading="eager" decoding="async">
@@ -185,7 +184,7 @@ h2.title.green em{color:var(--green)}
     <h2 class="title" style="font-size:44px;margin-top:6px">How the LLM predicts &mdash; it does not <em>know</em></h2>
     <div class="stack-hero" style="margin-top:14px;gap:8px">
       <div class="hpic">
-        <img src="assets/llm_next_token.jpg" alt="LLM = Next-Token Prediction: predicts a probability distribution over the next token, then selects the most likely one — but the most likely answer is not always the correct one." style="max-height:96%" loading="eager" fetchpriority="high" decoding="async">
+        <img src="assets/llm_next_token.jpg" alt="LLM = Next-Token Prediction: predicts a probability distribution over the next token, then selects the most likely one — but the most likely answer is not always the correct one." loading="eager" fetchpriority="high" decoding="async">
       </div>
     </div>
     <div class="cite">Ji et al. (2023)</div>
@@ -198,7 +197,7 @@ h2.title.green em{color:var(--green)}
     <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
     <div class="stack-hero">
       <div class="hpic" style="margin-top:18px">
-        <img src="assets/tom_jerry.jpg" alt="Tom sitting on Jerry — a cat really can sit on a rat, but only in cartoons." style="max-height:58%;border-radius:18px" loading="lazy" decoding="async">
+        <img src="assets/tom_jerry.jpg" alt="Tom sitting on Jerry — a cat really can sit on a rat, but only in cartoons." style="border-radius:18px" loading="lazy" decoding="async">
       </div>
       <div class="htext" style="text-align:center;max-width:1240px;align-self:center">
         <div class="kicker orange" style="margin-bottom:16px">A guess, not a fact</div>
