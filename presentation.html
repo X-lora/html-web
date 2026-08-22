@@ -268,14 +268,14 @@ h2.title.green em{color:var(--green)}
 
         <div style="margin-top:26px;padding:18px 22px;background:var(--panel);border-radius:12px;border:1px solid var(--line)">
           <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px">The exam analogy</div>
-          <p class="body" style="font-size:18px;line-height:1.45;color:var(--ink-soft)">Think of it like an exam: the <span class="strong">policy scenario</span> is the question (a fare rise of 10% &mdash; what would you do?), the <span class="strong">agents</span> are the students, and the <span class="strong">benchmark</span> is the answer key &mdash; a record of how real people actually behaved under a comparable past policy. The <span class="strong">rubric</span> is the grading criteria, and a <span class="strong">domain expert + LLM</span> mark together. If a score falls short, the result is fed back to the agent so it improves &mdash; looping until it passes the threshold and "graduates" to policy simulation.</p>
+          <p class="body" style="font-size:18px;line-height:1.45;color:var(--ink-soft)">Think of it like an exam: the <span class="strong">policy scenario</span> is the question (a fare rise of 10% &mdash; what would you do?), the <span class="strong">benchmark</span> is the set of diverse agents that take it &mdash; each a different "student" with its own personality, experience, and memory &mdash; and their decisions are compared against real past records. The <span class="strong">rubric</span> is the grading criteria, and a <span class="strong">domain expert + LLM</span> mark together. If a score falls short, the result is fed back to the agent so it improves &mdash; looping until it passes the threshold and "graduates" to policy simulation.</p>
         </div>
       </div>
 
       <div class="figure" style="flex:1;min-width:0">
         <div class="figbox" style="min-height:520px">
           <span class="figlabel">[ FIGURE ]</span>
-          <span class="figdesc" style="max-width:90%">The evaluation loop: Decision Agent &rarr; Benchmark (exam questions) &rarr; Rubric (marking criteria) &rarr; Expert + LLM assess &rarr; Results (score + diagnosis) &rarr; Pass threshold. Feedback arrow loops back to the agent.</span>
+          <span class="figdesc" style="max-width:90%">The evaluation loop: Benchmark (diverse agents) &rarr; Scenario (policy question) &rarr; Rubric (marking criteria) &rarr; Expert + LLM assess &rarr; Results (score + diagnosis) &rarr; Pass threshold. Feedback arrow loops back to the agents.</span>
         </div>
       </div>
     </div>
@@ -288,29 +288,33 @@ h2.title.green em{color:var(--green)}
   <div class="slide-pad" style="padding:78px 132px 84px">
     <div class="topbar"><span><span class="dot"></span>The evaluation</span></div>
     <div class="kicker green" style="margin-top:30px">Component 1</div>
-    <h2 class="title green">&#9312; Benchmark &mdash; the <em>answer key</em></h2>
+    <h2 class="title green">&#9312; Benchmark &mdash; diverse <em>agents</em></h2>
     <div class="split" style="margin-top:26px;align-items:stretch;gap:56px">
-      <div class="text" style="flex:.74">
-        <p class="body">A benchmark is a known set of <span class="strong">correct answers</span> &mdash; a record of how real people actually behaved under a comparable past policy.</p>
-        <p class="body" style="margin-top:14px">Take the fare rise. The question is the policy itself: <em>bus fares rise 10% &mdash; what would you do?</em> The students are the agents, each with its own personality and memory. Each agent gives a decision.</p>
-        <p class="body" style="margin-top:14px">The benchmark is the <span class="strong">answer key</span>: the real ridership records from the last actual fare change. We compare each agent's decision against what people really did.</p>
+      <div class="text" style="flex:.76">
+        <p class="body">The benchmark is the set of <span class="strong">agents</span> we test &mdash; the "students" who take the exam. Each agent stands in for one real person, carrying that person's <span class="strong">personality, experience, and memory</span>.</p>
+        <p class="body" style="margin-top:14px">In the fare-rise case, the question is the policy: <em>bus fares rise 10% &mdash; what would you do?</em> Each benchmark agent gives its own decision, and we compare that against the real ridership records from the last fare change.</p>
         <div style="margin-top:18px;padding:14px 18px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:8px">
-          <p class="body" style="font-size:18px;color:var(--ink);line-height:1.42"><span class="strong">Requirement:</span> it must be built from <em>real data</em>, not assumption &mdash; otherwise we are checking one guess against another.</p>
+          <p class="body" style="font-size:18px;color:var(--ink);line-height:1.42"><span class="strong">Requirement:</span> the agents must be as <em>diverse</em> as possible &mdash; different types of people, with different traits, experiences, and memories &mdash; so the benchmark captures real individual differences, not one average response.</p>
         </div>
       </div>
       <div class="figure" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px">
-        <div style="border:1.5px solid var(--line-strong);border-radius:14px;padding:18px 24px;background:var(--panel)">
-          <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px">Question &mdash; the policy</div>
-          <div style="font-family:var(--font-display);font-size:23px;color:var(--ink);line-height:1.3">Bus fares rise 10%. What would you do?</div>
+        <div style="border:1.5px solid var(--line-strong);border-radius:14px;padding:16px 24px;background:var(--panel)">
+          <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px">Question &mdash; the policy</div>
+          <div style="font-family:var(--font-display);font-size:22px;color:var(--ink);line-height:1.3">Bus fares rise 10%. What would you do?</div>
         </div>
-        <div style="border:1.5px solid var(--accent2);border-radius:14px;padding:18px 24px;background:var(--accent2-soft)">
-          <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent2);font-weight:700;margin-bottom:8px">Students &mdash; the agents</div>
-          <div style="font-family:var(--font-display);font-size:22px;color:var(--ink);line-height:1.28">Each one decides, from its own personality &amp; memory.</div>
+        <div style="border:1.5px solid var(--green);border-radius:14px;padding:16px 24px;background:var(--green-soft)">
+          <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:10px">Benchmark &mdash; diverse agents (the students)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="background:var(--bg);border-radius:8px;padding:10px 12px"><span style="font-family:var(--font-body);font-size:14px;color:var(--ink-soft);line-height:1.35"><span class="strong">Student</span> &mdash; cost-saving, short memory</span></div>
+            <div style="background:var(--bg);border-radius:8px;padding:10px 12px"><span style="font-family:var(--font-body);font-size:14px;color:var(--ink-soft);line-height:1.35"><span class="strong">Worker</span> &mdash; convenience, long memory</span></div>
+            <div style="background:var(--bg);border-radius:8px;padding:10px 12px"><span style="font-family:var(--font-body);font-size:14px;color:var(--ink-soft);line-height:1.35"><span class="strong">Retired</span> &mdash; risk-averse, security-first</span></div>
+            <div style="background:var(--bg);border-radius:8px;padding:10px 12px"><span style="font-family:var(--font-body);font-size:14px;color:var(--ink-soft);line-height:1.35"><span class="strong">Parent</span> &mdash; impulsive, time-saving</span></div>
+          </div>
         </div>
-        <div style="text-align:center;font-family:var(--font-mono);font-size:13px;color:var(--ink-faint);letter-spacing:.14em">compare against &darr;</div>
-        <div style="border:1.5px solid var(--green);border-radius:14px;padding:18px 24px;background:var(--green-soft)">
-          <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:8px">Benchmark &mdash; the answer key</div>
-          <div style="font-family:var(--font-display);font-size:22px;color:var(--ink);line-height:1.28">Real ridership records from the last fare change.</div>
+        <div style="text-align:center;font-family:var(--font-mono);font-size:13px;color:var(--ink-faint);letter-spacing:.14em">compare each decision against &darr;</div>
+        <div style="border:1.5px solid var(--accent2);border-radius:14px;padding:16px 24px;background:var(--accent2-soft)">
+          <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent2);font-weight:700;margin-bottom:6px">Reference &mdash; real records</div>
+          <div style="font-family:var(--font-display);font-size:21px;color:var(--ink);line-height:1.28">Ridership records from the last real fare change.</div>
         </div>
       </div>
     </div>
@@ -351,7 +355,7 @@ h2.title.green em{color:var(--green)}
         <p class="body">Once a decision fails the rubric, the mechanism feeds the result back and corrects the simulation. It combines <span class="strong">two layers</span>:</p>
         <p class="body" style="margin-top:14px"><span class="strong">Automated checks</span> &mdash; an LLM flags obvious errors quickly, at scale.</p>
         <p class="body" style="margin-top:14px"><span class="strong">Human expert review</span> &mdash; for cases that need judgement, domain experts step in.</p>
-        <p class="body" style="margin-top:16px">This is not "AI marking its own homework": the benchmark (real data) sets the standard, and the rubric is set by human experts &mdash; the LLM only screens, it does not grade itself.</p>
+        <p class="body" style="margin-top:16px">This is not "AI marking its own homework": the agents are marked against <span class="strong">real past records</span>, and the rubric is set by human experts &mdash; the LLM only screens, it does not grade itself.</p>
       </div>
       <div class="figure" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px">
         <div style="display:flex;align-items:center;gap:16px;background:var(--panel);border-radius:12px;padding:18px 22px;border:1px solid var(--line)"><span style="font-family:var(--font-mono);font-size:13px;color:var(--ink-faint);font-weight:700;width:64px;flex-shrink:0;letter-spacing:.1em">AUTO</span><div style="font-family:var(--font-display);font-size:21px;color:var(--ink);line-height:1.28">LLM flags <em style="color:var(--green)">obvious</em> errors &mdash; fast, at scale.</div></div>
