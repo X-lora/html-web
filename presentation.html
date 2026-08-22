@@ -330,11 +330,11 @@ h2.title.green em{color:var(--green)}
         <p class="body">The rubric is the marking scheme &mdash; criteria, set by domain experts, for what a <span class="strong">realistic</span> decision looks like in this policy area.</p>
         <p class="body" style="margin-top:14px">A decision earns marks only if it <span class="strong">fits the person</span> behind the agent &mdash; their personality, their experience. A plausible-sounding answer that doesn't match the person gets a low score.</p>
       </div>
-      <div class="figure" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px">
-        <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:2px">The fare rises 10% &mdash; does the decision fit the person?</div>
-        <div style="display:flex;align-items:flex-start;gap:16px;background:var(--green-soft);border-radius:12px;padding:16px 22px"><span style="font-family:var(--font-display);font-size:30px;color:var(--green);font-weight:600;flex-shrink:0;width:30px;line-height:1">&#10003;</span><div style="font-family:var(--font-display);font-size:21px;color:var(--ink);line-height:1.3">A person whose company is <em style="color:var(--green)">far away</em>, and who can&rsquo;t drive, still takes the bus &mdash; fits their situation. <span style="color:var(--green);font-weight:600">High marks.</span></div></div>
-        <div style="display:flex;align-items:flex-start;gap:16px;background:var(--green-soft);border-radius:12px;padding:16px 22px"><span style="font-family:var(--font-display);font-size:30px;color:var(--green);font-weight:600;flex-shrink:0;width:30px;line-height:1">&#10003;</span><div style="font-family:var(--font-display);font-size:21px;color:var(--ink);line-height:1.3">A cost-saving student switches to a bike they already own &mdash; fits their experience. <span style="color:var(--green);font-weight:600">High marks.</span></div></div>
-        <div style="display:flex;align-items:flex-start;gap:16px;background:var(--red-soft);border-radius:12px;padding:16px 22px;border-left:4px solid var(--red)"><span style="font-family:var(--font-display);font-size:30px;color:var(--red);font-weight:600;flex-shrink:0;width:30px;line-height:1">&#10007;</span><div style="font-family:var(--font-display);font-size:21px;color:var(--ink);line-height:1.3">A <em style="color:var(--red)">lazy but wealthy</em> person walks a long way instead &mdash; the decision clashes with both their personality and means. <span style="color:var(--red);font-weight:600">Low score.</span></div></div>
+      <div class="figure" style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center">
+        <div class="figbox" style="min-height:480px;width:100%">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc" style="max-width:88%">Rubric examples for the fare-rise case: a decision that fits the person (e.g. someone whose company is far and who can&rsquo;t drive keeps the bus) scores high; one that clashes with the person (e.g. a lazy but wealthy person walks a long way) scores low.</span>
+        </div>
       </div>
     </div>
     <div class="cite">Belfrage et al. (2024)</div>
@@ -354,24 +354,11 @@ h2.title.green em{color:var(--green)}
         <p class="body" style="margin-top:14px"><span class="strong">The human expert</span> brings <em>understanding</em>: whether a decision is realistic depends on the policy's context &mdash; knowledge the LLM lacks &mdash; so the expert judges the hard, ambiguous cases.</p>
         <p class="body" style="margin-top:16px">But both do more than score: each writes a <span class="strong">diagnosis</span> &mdash; where and why it's wrong &mdash; which feeds back to the agent. It adjusts, we run again, <em>closer each round</em>, until the score clears the threshold.</p>
       </div>
-      <div class="figure" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px">
-        <div style="display:flex;gap:12px">
-          <div style="flex:1;background:var(--panel);border-radius:12px;padding:16px 18px;border:1px solid var(--line)">
-            <div style="font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);font-weight:700;letter-spacing:.14em;margin-bottom:7px">LLM &middot; EFFICIENCY</div>
-            <div style="font-family:var(--font-display);font-size:19px;color:var(--ink);line-height:1.3">Screens every decision, <em style="color:var(--green)">fast</em>, at scale.</div>
-          </div>
-          <div style="flex:1;background:var(--panel);border-radius:12px;padding:16px 18px;border:1px solid var(--line)">
-            <div style="font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);font-weight:700;letter-spacing:.14em;margin-bottom:7px">EXPERT &middot; UNDERSTANDING</div>
-            <div style="font-family:var(--font-display);font-size:19px;color:var(--ink);line-height:1.3">Judges the <em style="color:var(--green)">hard</em> cases the LLM can't.</div>
-          </div>
+      <div class="figure" style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center">
+        <div class="figbox" style="min-height:480px;width:100%">
+          <span class="figlabel">[ FIGURE ]</span>
+          <span class="figdesc" style="max-width:88%">The mechanism: LLM (efficiency, screens at scale) + human expert (understanding, judges the hard cases) &rarr; both write a diagnosis, not just a score &rarr; feedback to the agent &rarr; run again, closer each round, until the score clears the threshold.</span>
         </div>
-        <div style="text-align:center;font-family:var(--font-mono);font-size:13px;color:var(--ink-faint);letter-spacing:.14em;margin:1px 0">&darr; both write a diagnosis, not just a score</div>
-        <div style="background:var(--panel2);border-radius:12px;padding:15px 20px;border:1px solid var(--line-strong)">
-          <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px">Diagnosis &mdash; where &amp; why it's weak</div>
-          <div style="font-family:var(--font-display);font-size:19px;color:var(--ink);line-height:1.3">"Decision ignores the policy's context &mdash; here, who can actually afford the rise."</div>
-        </div>
-        <div style="text-align:center;font-family:var(--font-mono);font-size:13px;color:var(--ink-faint);letter-spacing:.14em;margin:1px 0">&darr; feed back to the agent</div>
-        <div style="display:flex;align-items:center;justify-content:center;gap:14px;background:var(--green-soft);border-radius:12px;padding:18px 22px;border:1.5px solid var(--green)"><div style="font-family:var(--font-display);font-size:22px;color:var(--ink);line-height:1.28;text-align:center">agent adjusts &rarr; <em style="color:var(--green)">run again</em>, closer each round.</div></div>
       </div>
     </div>
     <div class="cite">Li, Das &amp; Shirado (2025); Belfrage et al. (2024)</div>
