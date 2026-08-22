@@ -324,20 +324,20 @@ h2.title.green em{color:var(--green)}
 
 <!-- SLIDE 11: RUBRIC -->
 <section class="slide">
-  <div class="slide-pad" style="padding:84px 132px 84px">
+  <div class="slide-pad" style="padding:80px 132px 84px">
     <div class="topbar"><span><span class="dot"></span>The evaluation</span></div>
     <div class="kicker green" style="margin-top:30px">Component 2</div>
     <h2 class="title green">&#9313; Rubric &mdash; the <em>marking scheme</em></h2>
-    <div class="split" style="margin-top:30px;align-items:center">
-      <div class="text" style="flex:1">
-        <p class="body">The benchmark says whether the number matches. The rubric says whether each agent's decision is <span class="strong">realistic</span> &mdash; a set of criteria set by domain experts for what a real person's response looks like here.</p>
-        <p class="body" style="margin-top:16px">A decision earns marks only if it fits the person behind the agent &mdash; not just a plausible-sounding answer.</p>
+    <div class="split" style="margin-top:26px;align-items:stretch;gap:56px">
+      <div class="text" style="flex:.72">
+        <p class="body">The rubric is the marking scheme &mdash; criteria, set by domain experts, for what a <span class="strong">realistic</span> decision looks like in this policy area.</p>
+        <p class="body" style="margin-top:14px">A decision earns marks only if it <span class="strong">fits the person</span> behind the agent &mdash; their personality, their experience. A plausible-sounding answer that doesn't match the person gets a low score.</p>
       </div>
       <div class="figure" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px">
-        <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px">Does the decision fit the person?</div>
-        <div style="display:flex;align-items:center;gap:16px;background:var(--green-soft);border-radius:12px;padding:16px 22px"><span style="font-family:var(--font-display);font-size:30px;color:var(--green);font-weight:600;flex-shrink:0;width:30px">&#10003;</span><div style="font-family:var(--font-display);font-size:22px;color:var(--ink);line-height:1.28">Matches the person's <em style="color:var(--green)">personality</em> &mdash; lazy, afraid of driving, still rides.</div></div>
-        <div style="display:flex;align-items:center;gap:16px;background:var(--green-soft);border-radius:12px;padding:16px 22px"><span style="font-family:var(--font-display);font-size:30px;color:var(--green);font-weight:600;flex-shrink:0;width:30px">&#10003;</span><div style="font-family:var(--font-display);font-size:22px;color:var(--ink);line-height:1.28">Matches their <em style="color:var(--green)">experience</em> &mdash; owns a bike, so switches to it.</div></div>
-        <div style="display:flex;align-items:center;gap:16px;background:var(--red-soft);border-radius:12px;padding:16px 22px"><span style="font-family:var(--font-display);font-size:30px;color:var(--red);font-weight:600;flex-shrink:0;width:30px">&#10007;</span><div style="font-family:var(--font-display);font-size:22px;color:var(--ink);line-height:1.28">Plausible, but <em style="color:var(--red)">wrong person</em> &mdash; a car owner who'd never take the bus.</div></div>
+        <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:2px">The fare rises 10% &mdash; does the decision fit the person?</div>
+        <div style="display:flex;align-items:flex-start;gap:16px;background:var(--green-soft);border-radius:12px;padding:16px 22px"><span style="font-family:var(--font-display);font-size:30px;color:var(--green);font-weight:600;flex-shrink:0;width:30px;line-height:1">&#10003;</span><div style="font-family:var(--font-display);font-size:21px;color:var(--ink);line-height:1.3">A lazy, <em style="color:var(--green)">driving-averse</em> person keeps taking the bus &mdash; fits their personality. <span style="color:var(--green);font-weight:600">High marks.</span></div></div>
+        <div style="display:flex;align-items:flex-start;gap:16px;background:var(--green-soft);border-radius:12px;padding:16px 22px"><span style="font-family:var(--font-display);font-size:30px;color:var(--green);font-weight:600;flex-shrink:0;width:30px;line-height:1">&#10003;</span><div style="font-family:var(--font-display);font-size:21px;color:var(--ink);line-height:1.3">A cost-saving student switches to a bike they already own &mdash; fits their experience. <span style="color:var(--green);font-weight:600">High marks.</span></div></div>
+        <div style="display:flex;align-items:flex-start;gap:16px;background:var(--red-soft);border-radius:12px;padding:16px 22px;border-left:4px solid var(--red)"><span style="font-family:var(--font-display);font-size:30px;color:var(--red);font-weight:600;flex-shrink:0;width:30px;line-height:1">&#10007;</span><div style="font-family:var(--font-display);font-size:21px;color:var(--ink);line-height:1.3">A <em style="color:var(--red)">lazy but wealthy</em> person walks a long way instead &mdash; the decision clashes with both their personality and means. <span style="color:var(--red);font-weight:600">Low score.</span></div></div>
       </div>
     </div>
     <div class="cite">Belfrage et al. (2024)</div>
