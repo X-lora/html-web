@@ -251,35 +251,29 @@ h2.title.green em{color:var(--green)}
 
 <!-- SLIDE 9: THE FIX -->
 <section class="slide">
-  <div class="slide-pad" style="padding:78px 132px 80px">
-   <div class="topbar"><span><span class="dot"></span>The evaluation</span></div>
+  <div class="slide-pad" style="padding:72px 132px 76px">
+    <div class="topbar"><span><span class="dot"></span>The evaluation</span></div>
     <div class="kicker green" style="margin-top:30px">The fix</div>
     <h2 class="title green">An <em>evaluation system</em> for the decision step</h2>
-    <p class="body" style="margin-top:20px;max-width:1560px">No one has checked whether the decisions AI agents produce match how real people behave. So this essay argues for an evaluation system built specifically for that decision step &mdash; and to picture how it works, think of it <span class="strong">like an exam</span>.</p>
+    <p class="body" style="margin-top:18px;max-width:1560px">No one has checked whether the decisions AI agents produce match how real people behave. So this essay argues for an evaluation system built for that decision step &mdash; with <span class="strong">two aims</span>, and a loop that works <span class="strong">like an exam</span>.</p>
 
-    <div class="split" style="margin-top:30px;align-items:stretch;gap:60px">
-      <div class="text" style="flex:.78">
-        <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:14px">Two aims</div>
-        <div style="display:flex;gap:24px;flex-direction:column">
+    <div class="split" style="margin-top:22px;align-items:center;gap:56px">
+      <div class="text" style="flex:.46">
+        <div style="display:flex;gap:20px;flex-direction:column">
           <div style="border-left:3px solid var(--green);padding-left:18px">
-            <div style="font-family:var(--font-display);font-size:23px;color:var(--ink);font-weight:500;line-height:1.28"><span style="font-family:var(--font-mono);color:var(--green);font-size:18px;font-weight:700;margin-right:8px">1</span>Verify whether the decision simulation is <em style="color:var(--green)">accurate</em>.</div>
+            <div style="font-family:var(--font-display);font-size:22px;color:var(--ink);font-weight:500;line-height:1.28"><span style="font-family:var(--font-mono);color:var(--green);font-size:18px;font-weight:700;margin-right:8px">1</span>Verify whether the decision simulation is <em style="color:var(--green)">accurate</em>.</div>
           </div>
           <div style="border-left:3px solid var(--green);padding-left:18px">
-            <div style="font-family:var(--font-display);font-size:23px;color:var(--ink);font-weight:500;line-height:1.28"><span style="font-family:var(--font-mono);color:var(--green);font-size:18px;font-weight:700;margin-right:8px">2</span>Where it is not, pinpoint the <em style="color:var(--green)">root cause</em> and iterate until it meets the standard.</div>
+            <div style="font-family:var(--font-display);font-size:22px;color:var(--ink);font-weight:500;line-height:1.28"><span style="font-family:var(--font-mono);color:var(--green);font-size:18px;font-weight:700;margin-right:8px">2</span>Where it is not, pinpoint the <em style="color:var(--green)">root cause</em> and iterate until it meets the standard.</div>
           </div>
         </div>
-
-        <div style="margin-top:26px;padding:18px 22px;background:var(--panel);border-radius:12px;border:1px solid var(--line)">
-          <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px">The exam analogy</div>
-          <p class="body" style="font-size:18px;line-height:1.45;color:var(--ink-soft)">Think of it like an exam: the <span class="strong">policy scenario</span> is the question (a fare rise of 10% &mdash; what would you do?), the <span class="strong">benchmark</span> is the set of diverse agents that take it &mdash; each a different "student" with its own personality, experience, and memory &mdash; and their decisions are compared against real past records. The <span class="strong">rubric</span> is the grading criteria, and a <span class="strong">domain expert + LLM</span> mark together. If a score falls short, the result is fed back to the agent so it improves &mdash; looping until it passes the threshold and "graduates" to policy simulation.</p>
+        <div style="margin-top:20px;padding:14px 18px;background:var(--panel);border-radius:10px;border:1px solid var(--line)">
+          <p class="body" style="font-size:17px;line-height:1.45;color:var(--ink-soft)">Benchmark, rubric, mechanism &mdash; the three parts the next slides unpack. The diagram shows the whole loop.</p>
         </div>
       </div>
 
-      <div class="figure" style="flex:1;min-width:0">
-        <div class="figbox" style="min-height:520px">
-          <span class="figlabel">[ FIGURE ]</span>
-          <span class="figdesc" style="max-width:90%">The evaluation loop: Benchmark (diverse agents) &rarr; Scenario (policy question) &rarr; Rubric (marking criteria) &rarr; Expert + LLM assess &rarr; Results (score + diagnosis) &rarr; Pass threshold. Feedback arrow loops back to the agents.</span>
-        </div>
+      <div class="figure" style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center">
+        <img src="assets/eval_loop.jpg" alt="The evaluation loop: Benchmark agents &rarr; Scenario (fare +10%) &rarr; Rubric (marking criteria) &rarr; Expert + LLM assess &rarr; Results (score + diagnosis) &rarr; Pass threshold, with feedback looping back to the agents." style="max-width:100%;max-height:560px;object-fit:contain;border-radius:14px" loading="lazy" decoding="async">
       </div>
     </div>
     <div class="cite">Chang et al. (2024); Belfrage et al. (2024)</div>
