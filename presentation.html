@@ -48,7 +48,11 @@ h2.title.green em{color:var(--green)}
 .lead{font-family:var(--font-body);font-weight:300;font-size:27px;color:var(--ink-soft);line-height:1.46;max-width:1500px}
 .body{font-family:var(--font-body);font-weight:400;font-size:24px;color:var(--ink-soft);line-height:1.55}
 .body.strong{color:var(--ink);font-weight:500}
+.strong{color:var(--ink);font-weight:600}
 .body em{font-style:italic}
+.body em.accent2{color:var(--accent2)}
+.body em.accent{color:var(--accent)}
+.body em.green{color:var(--green)}
 .rule{width:72px;height:3px;background:var(--accent);margin:30px 0}
 
 /* layout: text left, figure right */
@@ -149,8 +153,8 @@ h2.title.green em{color:var(--green)}
     <h2 class="title">Simulation: policy &rarr; decision &rarr; <em>outcome</em></h2>
     <div class="stack-hero" style="margin-top:18px;gap:14px">
       <div class="htext">
-        <p class="body" style="font-size:25px;line-height:1.5">A policy changes a person's circumstances. That shapes their decision. The decision guides their behaviour. And when behaviours interact, they produce a social phenomenon we can observe.</p>
-        <p class="body" style="font-size:25px;line-height:1.5;margin-top:12px"><span class="strong">The decision step in the middle is the weak link.</span></p>
+        <p class="body" style="font-size:30px;line-height:1.48">A policy changes a person's circumstances. That shapes their decision. The decision guides their behaviour. And when behaviours interact, they produce a social phenomenon we can observe.</p>
+        <p class="body" style="font-size:30px;line-height:1.48;margin-top:14px"><span class="strong">The decision step in the middle is the weak link.</span></p>
       </div>
       <div class="hpic">
         <img src="assets/policy_chain.jpg" alt="From Policy to Social Outcome: a five-step chain. The middle decision step is the weak link." loading="eager" fetchpriority="high" decoding="async">
@@ -168,8 +172,8 @@ h2.title.green em{color:var(--green)}
     <h2 class="title">One fare rise, <em>one</em> fixed rule</h2>
     <div class="stack-hero" style="margin-top:18px;gap:14px">
       <div class="htext">
-        <p class="body" style="font-size:25px;line-height:1.5">Traditional simulation just uses <span class="strong">a fixed rule</span>. For example: fares rise 10% &rarr; passengers within 10 km drop 5%.</p>
-        <p class="body" style="font-size:25px;line-height:1.5;margin-top:10px">But would <em>you</em> still ride? It depends on the person &mdash; a bike, the weather, how lazy you are&hellip; a fixed rule can't capture any of that.</p>
+        <p class="body" style="font-size:30px;line-height:1.48">Traditional simulation just uses <span class="strong">a fixed rule</span>. For example: fares rise 10% &rarr; passengers within 10 km drop 5%.</p>
+        <p class="body" style="font-size:30px;line-height:1.48;margin-top:12px">But would <em>you</em> still ride? It depends on the person &mdash; a bike, the weather, how lazy you are&hellip; a fixed rule can't capture any of that.</p>
       </div>
       <div class="hpic">
         <img src="assets/bus_fare_rule.jpg" alt="Traditional simulation: a fixed rule applied to everyone — a 10% fare increase leads to a 5% decrease in ridership for everyone." loading="eager" decoding="async">
@@ -187,8 +191,8 @@ h2.title.green em{color:var(--green)}
     <h2 class="title">AI models each person</h2>
     <div class="stack-hero" style="margin-top:18px;gap:14px">
       <div class="htext">
-        <p class="body" style="font-size:25px;line-height:1.5">An agent <span class="strong">stores and combines</span> a person's memory, background, and personality &mdash; so it can think and decide like an independent person.</p>
-        <p class="body" style="font-size:25px;line-height:1.5;margin-top:10px">But its brain, the LLM, can never be 100% accurate.</p>
+        <p class="body" style="font-size:30px;line-height:1.48">An agent <span class="strong">stores and combines</span> a person's memory, background, and personality &mdash; so it can think and decide like an independent person.</p>
+        <p class="body" style="font-size:30px;line-height:1.48;margin-top:12px">But its brain, the LLM, can never be <span class="strong">100% accurate</span>.</p>
       </div>
       <div class="hpic">
         <img src="assets/ai_agents_each_person.jpg" alt="Each person has their own AI agent with an LLM brain, deciding from their own context." loading="eager" fetchpriority="high" decoding="async">
@@ -206,8 +210,8 @@ h2.title.green em{color:var(--green)}
     <h2 class="title">How the LLM predicts &mdash; it does not <em>know</em></h2>
     <div class="stack-hero" style="margin-top:18px;gap:14px">
       <div class="htext">
-        <p class="body" style="font-size:25px;line-height:1.5">At each step the LLM picks the token with the highest probability.</p>
-        <p class="body" style="font-size:25px;line-height:1.5;margin-top:10px"><span class="strong">But the most likely answer is not always the correct one.</span></p>
+        <p class="body" style="font-size:30px;line-height:1.48">At each step the LLM picks the token with the <span class="strong">highest probability</span>.</p>
+        <p class="body" style="font-size:30px;line-height:1.48;margin-top:12px"><span class="strong">But the most likely answer is not always the correct one.</span></p>
       </div>
       <div class="hpic">
         <img src="assets/llm_next_token.jpg" alt="LLM = Next-Token Prediction: predicts a probability distribution over the next token, then selects the most likely one — but the most likely answer is not always the correct one." loading="eager" fetchpriority="high" decoding="async">
@@ -242,7 +246,7 @@ h2.title.green em{color:var(--green)}
     <h2 class="title red">A small guess <em>grows</em> down the chain</h2>
     <div class="stack-hero" style="margin-top:18px;gap:14px">
       <div class="htext">
-        <p class="body" style="font-size:25px;line-height:1.5">A small error at the decision step is <span class="strong">amplified again and again</span> &mdash; until the social outcome deviates completely.</p>
+        <p class="body" style="font-size:30px;line-height:1.48">A small error at the decision step is <span class="strong">amplified again and again</span> &mdash; until the social outcome deviates completely.</p>
       </div>
       <div class="hpic">
         <img src="assets/error_propagation.jpg" alt="A small error at the individual-decision step grows through individual behaviour into a large error in the social outcome — amplified at each stage." loading="lazy" decoding="async">
@@ -258,16 +262,16 @@ h2.title.green em{color:var(--green)}
     <div class="topbar"><span><span class="dot"></span>The evaluation</span></div>
     <div class="kicker green" style="margin-top:30px">The fix</div>
     <h2 class="title green">An <em>evaluation system</em> for the decision step</h2>
-    <p class="body" style="margin-top:18px;max-width:1560px">No one has checked whether the decisions AI agents produce match how real people behave. So this essay argues for an evaluation system built for that decision step &mdash; with <span class="strong">two aims</span>, and a loop that works <span class="strong">like an exam</span>.</p>
+    <p class="body" style="margin-top:18px;max-width:1560px;font-size:25px;line-height:1.45">No one has checked whether the decisions AI agents produce match how real people behave. So this essay argues for an evaluation system built for that decision step &mdash; with <span class="strong">two aims</span>, and a loop that works <span class="strong">like an exam</span>.</p>
 
     <div class="split" style="margin-top:22px;align-items:center;gap:56px">
       <div class="text" style="flex:.46">
         <div style="display:flex;gap:20px;flex-direction:column">
           <div style="border-left:3px solid var(--green);padding-left:18px">
-            <div style="font-family:var(--font-display);font-size:22px;color:var(--ink);font-weight:500;line-height:1.28"><span style="font-family:var(--font-mono);color:var(--green);font-size:18px;font-weight:700;margin-right:8px">1</span>Verify whether the decision simulation is <em style="color:var(--green)">accurate</em>.</div>
+            <div style="font-family:var(--font-display);font-size:26px;color:var(--ink);font-weight:500;line-height:1.28"><span style="font-family:var(--font-mono);color:var(--green);font-size:20px;font-weight:700;margin-right:8px">1</span>Verify whether the decision simulation is <em style="color:var(--green)">accurate</em>.</div>
           </div>
           <div style="border-left:3px solid var(--green);padding-left:18px">
-            <div style="font-family:var(--font-display);font-size:22px;color:var(--ink);font-weight:500;line-height:1.28"><span style="font-family:var(--font-mono);color:var(--green);font-size:18px;font-weight:700;margin-right:8px">2</span>Where it is not, pinpoint the <em style="color:var(--green)">root cause</em> and iterate until it meets the standard.</div>
+            <div style="font-family:var(--font-display);font-size:26px;color:var(--ink);font-weight:500;line-height:1.28"><span style="font-family:var(--font-mono);color:var(--green);font-size:20px;font-weight:700;margin-right:8px">2</span>Where it is not, pinpoint the <em style="color:var(--green)">root cause</em> and iterate until it meets the standard.</div>
           </div>
         </div>
         <div style="margin-top:20px;padding:14px 18px;background:var(--panel);border-radius:10px;border:1px solid var(--line)">
@@ -401,15 +405,15 @@ h2.title.green em{color:var(--green)}
         <div style="display:flex;flex-direction:column;gap:20px">
           <div style="display:flex;gap:16px;align-items:flex-start">
             <span style="font-family:var(--font-mono);font-size:16px;color:var(--accent2);font-weight:700;width:24px;flex-shrink:0">1</span>
-            <div style="font-family:var(--font-body);font-size:22px;color:var(--ink-soft);line-height:1.42">Good policy can <em style="color:var(--accent2)">harm</em> &mdash; so we simulate before we launch.</div>
+            <div style="font-family:var(--font-body);font-size:26px;color:var(--ink);line-height:1.42">Good policy can <em style="color:var(--accent2)">harm</em> &mdash; so we <span class="strong">simulate before we launch</span>.</div>
           </div>
           <div style="display:flex;gap:16px;align-items:flex-start">
             <span style="font-family:var(--font-mono);font-size:16px;color:var(--accent2);font-weight:700;width:24px;flex-shrink:0">2</span>
-            <div style="font-family:var(--font-body);font-size:22px;color:var(--ink-soft);line-height:1.42">AI agents capture the person &mdash; but the LLM's guess at the decision step is <em style="color:var(--accent2)">never certain</em>.</div>
+            <div style="font-family:var(--font-body);font-size:26px;color:var(--ink);line-height:1.42">AI agents <span class="strong">capture the person</span> &mdash; but the LLM's guess at the decision step is <em style="color:var(--accent2)">never certain</em>.</div>
           </div>
           <div style="display:flex;gap:16px;align-items:flex-start">
             <span style="font-family:var(--font-mono);font-size:16px;color:var(--accent2);font-weight:700;width:24px;flex-shrink:0">3</span>
-            <div style="font-family:var(--font-body);font-size:22px;color:var(--ink-soft);line-height:1.42">So an <em style="color:var(--green)">evaluation system</em> &mdash; benchmark, rubric, mechanism &mdash; checks each decision and feeds the weakness back.</div>
+            <div style="font-family:var(--font-body);font-size:26px;color:var(--ink);line-height:1.42">So an <em style="color:var(--green)">evaluation system</em> &mdash; benchmark, rubric, mechanism &mdash; <span class="strong">checks each decision and feeds the weakness back</span>.</div>
           </div>
         </div>
       </div>
