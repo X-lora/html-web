@@ -1,483 +1,491 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI-Based Policy Simulation</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#fbfaf6; --bg2:#f6f4ec; --ink:#1a1a1a; --ink-soft:#5b5b5b; --ink-faint:#9a958a;
-  --line:#e6e2d6; --line-strong:#cfc9b8; --panel:#f3f0e7; --panel2:#efece2;
-  --accent:#0f766e; --accent-soft:#e3f1ef;
-  --accent2:#c2410c; --accent2-soft:#fbe6dd;
-  --red:#b91c1c; --red-soft:#fde8e8;
-  --green:#15803d; --green-soft:#e3f3e6;
-  --amber:#b45309; --amber-soft:#fef0dc;
-  --font-display:'Newsreader',serif; --font-body:'Manrope',sans-serif; --font-mono:'IBM Plex Mono',monospace;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;background:var(--bg)}
-.deck-viewport{position:fixed;inset:0;overflow:hidden;background:var(--bg)}
-.deck-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;background:var(--bg)}
-main{position:absolute;inset:0}
-.slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;display:block;visibility:hidden;opacity:0;pointer-events:none;background:var(--bg)}
-.slide.active{visibility:visible;opacity:1;pointer-events:auto;z-index:1}
-img{width:100%;height:100%;object-fit:contain;object-position:center}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The UK Soft Drinks Industry Levy — Evidence and Policy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Libre+Baskerville:wght@400;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* === THEME === */
+    :root {
+      --stage-bg: #d8d7ce;
+      --slide-bg: #f6f2e8;
+      --ink: #112762;
+      --ink-soft: #3a4c77;
+      --accent: #e75a2b;
+      --accent-soft: #f6dacd;
+      --sage: #d8dfca;
+      --line: rgba(17, 39, 98, .17);
+      --paper-shadow: rgba(16, 25, 58, .12);
+      --ease-out: cubic-bezier(.16, 1, .3, 1);
+    }
 
-.slide-pad{position:absolute;inset:0;padding:96px 132px;display:flex;flex-direction:column}
-.topbar{position:absolute;top:46px;left:132px;right:132px;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-body);font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;z-index:5}
-.topbar .dot{display:inline-block;width:8px;height:8px;background:var(--accent);border-radius:50%;margin-right:12px;vertical-align:middle}
-.cite{position:absolute;bottom:48px;left:132px;font-family:var(--font-body);font-size:15px;color:var(--ink-faint);font-style:italic;z-index:5}
+    /* === RESET === */
+    * { box-sizing: border-box; }
+    a { color: inherit; }
+    button { font: inherit; }
 
-.kicker{font-family:var(--font-body);font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:22px}
-.kicker.orange{color:var(--accent2)}
-.kicker.red{color:var(--red)}
-.kicker.green{color:var(--green)}
-.kicker.amber{color:var(--amber)}
+    /* === FIXED 16:9 STAGE: REQUIRED BASE === */
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--stage-bg, #000);
+    }
 
-h1.title{font-family:var(--font-display);font-weight:500;font-size:78px;line-height:1.04;color:var(--ink);letter-spacing:-.015em}
-h1.title em{font-style:italic;color:var(--accent2);font-weight:400}
-h2.title{font-family:var(--font-display);font-weight:500;font-size:56px;line-height:1.08;color:var(--ink);letter-spacing:-.01em}
-h2.title em{font-style:italic;color:var(--accent2);font-weight:400}
-h2.title.red em{color:var(--red)}
-h2.title.green em{color:var(--green)}
+    .deck-viewport {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background: var(--stage-bg, #000);
+    }
 
-.lead{font-family:var(--font-body);font-weight:300;font-size:27px;color:var(--ink-soft);line-height:1.46;max-width:1500px}
-.body{font-family:var(--font-body);font-weight:400;font-size:24px;color:var(--ink-soft);line-height:1.55}
-.body.strong{color:var(--ink);font-weight:500}
-.strong{color:var(--ink);font-weight:600}
-.body em{font-style:italic}
-.body em.accent2{color:var(--accent2)}
-.body em.accent{color:var(--accent)}
-.body em.green{color:var(--green)}
-.rule{width:72px;height:3px;background:var(--accent);margin:30px 0}
+    .deck-stage {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      transform-origin: 0 0;
+      background: var(--slide-bg, #fff);
+      box-shadow: 0 20px 60px var(--paper-shadow);
+    }
 
-/* layout: text left, figure right */
-.split{display:flex;gap:72px;flex:1;min-height:0;margin-top:44px;align-items:stretch}
-.split .text{flex:1.05;display:flex;flex-direction:column;min-width:0}
-.split .figure{flex:1;display:flex;flex-direction:column;min-width:0;justify-content:center;align-items:stretch}
-/* layout: figure full width under text */
-.stack{display:flex;flex-direction:column;flex:1;min-height:0;margin-top:40px;gap:36px}
-.stack .body{max-width:1500px}
+    .slide {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      display: block;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      background: var(--slide-bg, #fff);
+    }
 
-/* image placeholder */
-.figbox{flex:1;border:2px dashed var(--line-strong);border-radius:18px;background:var(--panel2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;min-height:300px}
-.figbox .figlabel{font-family:var(--font-mono);font-size:18px;color:var(--ink-faint);letter-spacing:.06em}
-.figbox .figdesc{font-family:var(--font-body);font-size:20px;color:var(--ink-faint);text-align:center;max-width:80%;line-height:1.45}
+    .slide.active,
+    .slide.visible {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 1;
+    }
 
-/* centered title slide */
-.center-slide{justify-content:center;align-items:flex-start}
+    img,
+    video,
+    canvas,
+    svg {
+      max-width: 100%;
+      max-height: 100%;
+    }
 
-/* conclusion big statement */
-.statement{font-family:var(--font-display);font-weight:500;font-size:112px;line-height:.98;color:var(--ink);letter-spacing:-.02em}
-.statement em{font-style:italic;color:var(--accent2);font-weight:400}
-.statement .neq{color:var(--accent2);font-weight:400}
+    .deck-controls {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      z-index: 1000;
+    }
 
-/* references list */
+    @media print {
+      html,
+      body {
+        width: 1920px;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+      }
+      .deck-viewport { position: static; overflow: visible; background: #fff; }
+      .deck-stage { position: static; width: auto; height: auto; transform: none !important; background: none; box-shadow: none; }
+      .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+      }
+      .slide:last-child { break-after: auto; page-break-after: auto; }
+      .deck-controls, .edit-hotzone, .edit-toggle { display: none !important; }
+    }
 
-/* text-only case slide (no fabricated figure) */
-.case{border-left:4px solid var(--accent2);padding:6px 0 6px 34px;max-width:1560px}
-.case .clabel{font-family:var(--font-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px}
-.case .ctext{font-family:var(--font-display);font-size:30px;line-height:1.4;color:var(--ink);font-weight:400}
-.case .ctext em{font-style:italic;color:var(--accent2);font-weight:400}
-.refs{list-style:none;counter-reset:ref;margin-top:8px;max-width:1500px}
-.refs li{counter-increment:ref;position:relative;padding-left:42px;margin-bottom:13px;font-family:var(--font-body);font-weight:400;font-size:18px;line-height:1.42;color:var(--ink-soft)}
-.refs li::before{content:counter(ref);position:absolute;left:0;top:1px;width:26px;text-align:right;font-family:var(--font-mono);font-size:15px;color:var(--accent);font-weight:600}
-.refs li em{font-style:italic}
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .2s !important; }
+    }
 
-/* stacked layout: text strip + large centered figure */
-.stack-hero{display:flex;flex-direction:column;flex:1 1 0;min-height:0;margin-top:22px;gap:16px}
-.stack-hero .htext{flex:0 0 auto}
-.stack-hero .hpic{flex:1 1 0;min-width:0;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.stack-hero .hpic img{max-width:100%;max-height:100%;height:auto;width:auto;object-fit:contain;border-radius:14px;display:block}
-.stack-hero.compact{gap:12px}
-.stack-hero.compact .body{font-size:22px;line-height:1.5}
-.stack-hero.compact .body + .body{margin-top:10px}
-</style>
-  <link rel="preload" as="image" href="assets/policy_chain.jpg" fetchpriority="high">
-  <link rel="preload" as="image" href="assets/ai_agents_each_person.jpg" fetchpriority="high">
-  <link rel="preload" as="image" href="assets/llm_next_token.jpg" fetchpriority="high">
+    /* === DECK FRAME === */
+    .slide {
+      padding: 84px 118px 80px;
+      background-color: var(--slide-bg);
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 42px 42px;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 19px;
+      color: var(--ink-soft);
+      font: 500 18px/1 "DM Mono", monospace;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    .topline strong { color: var(--accent); }
+    .slide-no { color: var(--ink); }
+    .source-strip {
+      position: absolute;
+      left: 118px;
+      right: 118px;
+      bottom: 42px;
+      color: var(--ink-soft);
+      font: 400 14px/1.3 "DM Mono", monospace;
+      letter-spacing: -.02em;
+    }
+    .source-strip a { text-decoration-color: var(--accent); text-underline-offset: 3px; }
+    .mini-label {
+      color: var(--accent);
+      font: 500 19px/1 "DM Mono", monospace;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1 {
+      color: var(--ink);
+      font: 700 101px/.99 "Libre Baskerville", Georgia, serif;
+      letter-spacing: -.055em;
+    }
+    h2 {
+      color: var(--ink);
+      font: 700 62px/1.05 "Libre Baskerville", Georgia, serif;
+      letter-spacing: -.045em;
+    }
+    .body-large { color: var(--ink-soft); font: 400 31px/1.4 Manrope, sans-serif; }
+    .body { color: var(--ink-soft); font: 400 26px/1.44 Manrope, sans-serif; }
+    .caption { color: var(--ink-soft); font: 400 18px/1.35 Manrope, sans-serif; }
+
+    /* === REVEALS === */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .12s var(--ease-out), transform .12s var(--ease-out); }
+    .visible .reveal { opacity: 1; transform: translateY(0); }
+    .visible .reveal.delay-1 { transition-delay: .01s; }
+    .visible .reveal.delay-2 { transition-delay: .02s; }
+    .visible .reveal.delay-3 { transition-delay: .03s; }
+    .visible .reveal.delay-4 { transition-delay: .04s; }
+
+    /* === SLIDE 1: TITLE === */
+    .slide:first-child h1 { margin-top: 116px; max-width: 1180px; }
+    .slide:first-child .subtitle { max-width: 870px; margin-top: 33px; }
+    .question-card {
+      position: absolute;
+      right: 118px;
+      bottom: 130px;
+      width: 600px;
+      min-height: 232px;
+      padding: 31px 38px;
+      border: 2px solid var(--ink);
+      background: rgba(246, 242, 232, .96);
+    }
+    .question-card p { margin-top: 16px; color: var(--ink); font: 600 29px/1.27 Manrope, sans-serif; }
+    .corner-mark {
+      position: absolute;
+      right: 118px;
+      top: 83px;
+      width: 106px;
+      height: 106px;
+      background: var(--accent);
+      clip-path: polygon(0 0, 100% 0, 100% 34%, 34% 34%, 34% 100%, 0 100%);
+    }
+
+    /* === SLIDE 2: EVIDENCE === */
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 78px;
+      align-items: start;
+      margin-top: 85px;
+    }
+    .evidence-intro { padding-top: 4px; }
+    .evidence-intro .body-large { max-width: 720px; margin-top: 28px; }
+    .evidence-steps { display: grid; gap: 18px; }
+    .evidence-step {
+      display: grid;
+      grid-template-columns: 68px 1fr;
+      gap: 20px;
+      align-items: start;
+      padding: 22px 26px;
+      border-left: 6px solid var(--accent);
+      background: rgba(255, 255, 255, .48);
+    }
+    .evidence-step .n { color: var(--accent); font: 700 30px/1 "DM Mono", monospace; }
+    .evidence-step h3 { color: var(--ink); font: 700 24px/1.2 Manrope, sans-serif; }
+    .evidence-step p { color: var(--ink-soft); font: 400 20px/1.34 Manrope, sans-serif; margin-top: 8px; }
+    .bottom-claim {
+      position: absolute;
+      left: 118px;
+      bottom: 123px;
+      width: 990px;
+      padding: 22px 27px;
+      background: var(--sage);
+      color: var(--ink);
+      font: 600 27px/1.28 Manrope, sans-serif;
+    }
+
+    /* === SLIDE 3: POLICY DESIGN === */
+    .timeline { position: relative; display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 38px; margin-top: 100px; }
+    .timeline:before { content: ""; position: absolute; left: 0; right: 0; top: 74px; border-top: 3px solid var(--ink); }
+    .timeline-item { position: relative; padding-top: 105px; }
+    .dot { position: absolute; top: 57px; left: 0; width: 34px; height: 34px; border: 7px solid var(--slide-bg); border-radius: 50%; background: var(--accent); }
+    .year { color: var(--accent); font: 500 23px/1 "DM Mono", monospace; letter-spacing: .08em; }
+    .timeline-item h3 { color: var(--ink); font: 700 31px/1.14 Manrope, sans-serif; margin-top: 13px; }
+    .timeline-item p { color: var(--ink-soft); font: 400 22px/1.38 Manrope, sans-serif; margin-top: 14px; max-width: 440px; }
+    .rates {
+      display: flex;
+      gap: 22px;
+      position: absolute;
+      left: 118px;
+      bottom: 131px;
+    }
+    .rate-card { width: 365px; min-height: 144px; padding: 20px 24px; background: var(--ink); color: #fff; }
+    .rate-card:nth-child(2) { background: var(--accent); }
+    .rate-card b { display: block; font: 700 35px/1 Manrope, sans-serif; }
+    .rate-card span { display: block; margin-top: 8px; font: 400 20px/1.25 Manrope, sans-serif; }
+    .design-note { position: absolute; right: 118px; bottom: 144px; width: 510px; color: var(--ink); font: 600 27px/1.3 Manrope, sans-serif; }
+
+    /* === SLIDE 4: POLICY PROCESS === */
+    .compare-head { display: flex; justify-content: space-between; margin-top: 78px; width: 1360px; }
+    .compare-head h3 { color: var(--ink); font: 700 32px/1 Manrope, sans-serif; }
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 24px; width: 1360px; }
+    .compare-column { min-height: 490px; padding: 34px 39px; border: 2px solid var(--ink); background: rgba(255,255,255,.4); }
+    .compare-column.power { border-color: var(--accent); background: var(--accent-soft); }
+    .compare-column ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 25px; }
+    .compare-column li { position: relative; padding-left: 30px; color: var(--ink); font: 500 24px/1.38 Manrope, sans-serif; }
+    .compare-column li:before { content: "—"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+    .verdict {
+      position: absolute;
+      right: 118px;
+      top: 270px;
+      width: 300px;
+      padding: 27px 25px;
+      color: #fff;
+      background: var(--ink);
+      font: 600 25px/1.32 Manrope, sans-serif;
+    }
+    .verdict b { color: #f8c5b2; }
+
+    /* === SLIDE 5: EVALUATION === */
+    .outcome-grid { display: grid; grid-template-columns: 1.06fr .94fr; gap: 48px; margin-top: 68px; }
+    .stat-panel { padding: 33px 36px 28px; background: var(--ink); color: #fff; }
+    .stat-panel + .stat-panel { margin-top: 18px; background: var(--accent); }
+    .big-stat { display: block; font: 700 82px/.9 "Libre Baskerville", Georgia, serif; letter-spacing: -.07em; }
+    .stat-panel p { margin-top: 12px; font: 500 24px/1.3 Manrope, sans-serif; }
+    .note-panel { min-height: 440px; padding: 37px 39px; border-top: 7px solid var(--accent); background: rgba(255,255,255,.5); }
+    .note-panel h3 { color: var(--ink); font: 700 31px/1.15 Manrope, sans-serif; }
+    .note-panel ul { margin: 25px 0 0; padding: 0; list-style: none; display: grid; gap: 22px; }
+    .note-panel li { position: relative; padding-left: 28px; color: var(--ink-soft); font: 400 23px/1.38 Manrope, sans-serif; }
+    .note-panel li:before { content: "•"; color: var(--accent); position: absolute; left: 0; }
+    .closing-line { position: absolute; left: 118px; bottom: 128px; width: 1370px; color: var(--ink); font: 700 32px/1.28 Manrope, sans-serif; }
+    .closing-line em { color: var(--accent); font-style: normal; }
+
+    /* === CONTROLS AND EDITING === */
+    .deck-controls { display: flex; align-items: center; gap: 10px; padding: 7px 12px; border-radius: 999px; background: rgba(17,39,98,.88); color: #fff; box-shadow: 0 5px 18px rgba(0,0,0,.2); font: 500 13px/1 "DM Mono", monospace; }
+    .deck-controls button { width: 32px; height: 28px; border: 0; border-radius: 50%; color: #fff; background: transparent; cursor: pointer; }
+    .deck-controls button:hover { background: rgba(255,255,255,.15); }
+    .progress { width: 92px; height: 4px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.25); }
+    .progress i { display: block; width: 20%; height: 100%; background: #f5c4b3; transition: width .25s var(--ease-out); }
+    .edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
+    .edit-toggle { position: fixed; top: 20px; left: 20px; z-index: 10001; opacity: 0; pointer-events: none; border: 0; border-radius: 50%; width: 42px; height: 42px; background: var(--ink); color: #fff; cursor: pointer; transition: opacity .25s ease; }
+    .edit-toggle.show, .edit-toggle.active { opacity: 1; pointer-events: auto; }
+    body.editing [data-editable="true"] { outline: 2px dashed var(--accent); outline-offset: 4px; cursor: text; }
+  </style>
 </head>
 <body>
-<div class="deck-viewport">
-<div class="deck-stage" id="deckStage">
-<main>
+  <div class="deck-viewport">
+    <main class="deck-stage" id="deckStage">
 
-<!-- SLIDE 1: TITLE -->
+      <!-- === SLIDE 1: CASE AND QUESTION === -->
 <section class="slide">
-  <div class="slide-pad center-slide">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker">Reading into Speaking &middot; Oral Presentation</div>
-    <h1 class="title">An Outline and Evaluation of<br><em>AI-Based Policy Simulation</em></h1>
-    <div class="rule"></div>
-    <p class="lead" style="max-width:1100px">The decisions it models, where it breaks, and how it can be checked.</p>
-    <div style="margin-top:44px;display:flex;gap:0;font-family:var(--font-mono);font-size:18px;letter-spacing:.04em">
-      <div style="padding-right:40px;border-right:1px solid var(--line-strong)">
-        <div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px">Name</div>
-        <div style="font-family:var(--font-display);font-size:30px;font-weight:500;color:var(--ink)">Kairus</div>
-      </div>
-      <div style="padding-left:40px">
-        <div style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px">Student Number</div>
-        <div style="font-family:var(--font-display);font-size:30px;font-weight:500;color:var(--ink)">s2937798</div>
-      </div>
-    </div>
-  </div>
-</section>
+        <div class="corner-mark"></div>
+        <div class="topline reveal"><span>Week 4 · Evidence & Policy</span><strong>UK case study</strong><span class="slide-no">01 / 05</span></div>
+        <h1 class="reveal delay-1" data-editable="true">The UK Soft Drinks Industry Levy</h1>
+        <p class="subtitle body-large reveal delay-2" data-editable="true">A childhood-obesity policy shaped by research,<br>public debate and political choices.</p>
+        <aside class="question-card reveal delay-3">
+          <span class="mini-label">Guiding question</span>
+          <p data-editable="true">How did research shape the levy, and what else influenced the final policy?</p>
+        </aside>
+        <p class="source-strip">Case: UK · Policy announced 2016; implemented 6 April 2018.</p>
+      </section>
 
-<!-- SLIDE 2: GOOD POLICY CAN STILL CAUSE HARM -->
+      <!-- === SLIDE 2: CONSTRUCTING THE PROBLEM === -->
 <section class="slide">
-  <div class="slide-pad" style="padding:88px 132px 84px">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker" style="margin-top:30px">The motivation &middot; a case</div>
-    <h2 class="title">Good policy can still <em>cause harm</em></h2>
-    <div class="case" style="margin-top:44px;flex:1 1 0;display:flex;flex-direction:column;justify-content:center;border-left-width:6px;padding:8px 0 8px 42px;max-width:1640px">
-      <div class="clabel">A minimum-wage case</div>
-      <p class="ctext" style="font-size:35px;line-height:1.36">A regional government raised the minimum wage so low-paid workers could earn more &mdash; <em>but some small businesses could not absorb the cost, so they let workers go.</em></p>
-      <p class="ctext" style="font-size:35px;line-height:1.36;margin-top:26px">The low-wage employees the policy was meant to help ended up not earning more &mdash; <em>they lost their jobs instead.</em></p>
-    </div>
-    <div style="margin-top:38px;border-top:1px solid var(--line);padding-top:26px;max-width:1560px">
-      <p class="body" style="font-size:25px;line-height:1.5">So before a government launches a policy, <span class="strong">no one can know</span> what effects it will bring. Sometimes a policy meant to do people good <span class="strong">ends up harming them</span>. To reduce that risk, governments can run a <span class="strong">policy simulation</span> first.</p>
-    </div>
-    <div class="cite">Neumark et al. (2014)</div>
-  </div>
-</section>
-
-<!-- SLIDE 3: THE CHAIN -->
-<section class="slide">
-  <div class="slide-pad" style="padding:64px 132px 64px">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker" style="margin-top:18px">The mechanism</div>
-    <h2 class="title">Simulation: policy &rarr; decision &rarr; <em>outcome</em></h2>
-    <div class="stack-hero" style="margin-top:18px;gap:14px">
-      <div class="htext">
-        <p class="body" style="font-size:30px;line-height:1.48">A policy changes a person's circumstances. That shapes their decision. The decision guides their behaviour. And when behaviours interact, they produce a social phenomenon we can observe.</p>
-        <p class="body" style="font-size:30px;line-height:1.48;margin-top:14px"><span class="strong">The decision step in the middle is the weak link.</span></p>
-      </div>
-      <div class="hpic">
-        <img src="assets/policy_chain.jpg" alt="From Policy to Social Outcome: a five-step chain. The middle decision step is the weak link." loading="eager" fetchpriority="high" decoding="async">
-      </div>
-    </div>
-    <div class="cite">Ghaffarzadegan et al. (2024)</div>
-  </div>
-</section>
-
-<!-- SLIDE 4: ONE FARE RISE, ONE FIXED RULE -->
-<section class="slide">
-  <div class="slide-pad" style="padding:64px 132px 56px">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker" style="margin-top:18px">The traditional approach</div>
-    <h2 class="title">One fare rise, <em>one</em> fixed rule</h2>
-    <div class="stack-hero" style="margin-top:18px;gap:14px">
-      <div class="htext">
-        <p class="body" style="font-size:30px;line-height:1.48">Traditional simulation just uses <span class="strong">a fixed rule</span>. For example: fares rise 10% &rarr; passengers within 10 km drop 5%.</p>
-        <p class="body" style="font-size:30px;line-height:1.48;margin-top:12px">But would <em>you</em> still ride? It depends on the person &mdash; a bike, the weather, how lazy you are&hellip; a fixed rule can't capture any of that.</p>
-      </div>
-      <div class="hpic">
-        <img src="assets/bus_fare_rule.jpg" alt="Traditional simulation: a fixed rule applied to everyone — a 10% fare increase leads to a 5% decrease in ridership for everyone." loading="eager" decoding="async">
-      </div>
-    </div>
-    <div class="cite">Ghaffarzadegan et al. (2024); Jamali &amp; Lazarova-Molnar (2026)</div>
-  </div>
-</section>
-
-<!-- SLIDE 5: AI MODELS EACH PERSON -->
-<section class="slide">
-  <div class="slide-pad" style="padding:64px 132px 56px">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker" style="margin-top:18px">The AI approach</div>
-    <h2 class="title">AI models each person</h2>
-    <div class="stack-hero" style="margin-top:18px;gap:14px">
-      <div class="htext">
-        <p class="body" style="font-size:30px;line-height:1.48">An agent <span class="strong">stores and combines</span> a person's memory, background, and personality &mdash; so it can think and decide like an independent person.</p>
-        <p class="body" style="font-size:30px;line-height:1.48;margin-top:12px">But its brain, the LLM, can never be <span class="strong">100% accurate</span>.</p>
-      </div>
-      <div class="hpic">
-        <img src="assets/ai_agents_each_person.jpg" alt="Each person has their own AI agent with an LLM brain, deciding from their own context." loading="eager" fetchpriority="high" decoding="async">
-      </div>
-    </div>
-    <div class="cite">Zhang, Peng &amp; Ren (2026)</div>
-  </div>
-</section>
-
-<!-- SLIDE 6: HOW THE LLM PREDICTS -->
-<section class="slide">
-  <div class="slide-pad" style="padding:64px 132px 56px">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker" style="margin-top:18px">The catch</div>
-    <h2 class="title">How the LLM predicts &mdash; it does not <em>know</em></h2>
-    <div class="stack-hero" style="margin-top:18px;gap:14px">
-      <div class="htext">
-        <p class="body" style="font-size:30px;line-height:1.48">At each step the LLM picks the token with the <span class="strong">highest probability</span>.</p>
-        <p class="body" style="font-size:30px;line-height:1.48;margin-top:12px"><span class="strong">But the most likely answer is not always the correct one.</span></p>
-      </div>
-      <div class="hpic">
-        <img src="assets/llm_next_token.jpg" alt="LLM = Next-Token Prediction: predicts a probability distribution over the next token, then selects the most likely one — but the most likely answer is not always the correct one." loading="eager" fetchpriority="high" decoding="async">
-      </div>
-    </div>
-    <div class="cite">Ji et al. (2023)</div>
-  </div>
-</section>
-
-<!-- SLIDE 7: TOM & JERRY (transition) -->
-<section class="slide">
-  <div class="slide-pad center-slide">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="stack-hero">
-      <div class="hpic" style="margin-top:18px">
-        <img src="assets/tom_jerry.jpg" alt="Tom sitting on Jerry — a cat really can sit on a rat, but only in cartoons." style="border-radius:18px" loading="lazy" decoding="async">
-      </div>
-      <div class="htext" style="text-align:center;max-width:1240px;align-self:center">
-        <div class="kicker orange" style="margin-bottom:16px">A guess, not a fact</div>
-        <p class="body" style="font-size:30px;line-height:1.45;color:var(--ink)">Tom can sit on Jerry. An LLM only outputs the <em>most likely</em> result &mdash; but as situations differ, it will inevitably make mistakes.</p>
-      </div>
-    </div>
-  </div>
-  <div class="cite">Ji et al. (2023)</div>
-</section>
-
-<!-- SLIDE 8: ERROR PROPAGATES -->
-<section class="slide">
-  <div class="slide-pad" style="padding:64px 132px 56px">
-    <div class="topbar"><span><span class="dot"></span>Introduction</span></div>
-    <div class="kicker red" style="margin-top:18px">The consequence</div>
-    <h2 class="title red">A small guess <em>grows</em> down the chain</h2>
-    <div class="stack-hero" style="margin-top:18px;gap:14px">
-      <div class="htext">
-        <p class="body" style="font-size:30px;line-height:1.48">A small error at the decision step is <span class="strong">amplified again and again</span> &mdash; until the social outcome deviates completely.</p>
-      </div>
-      <div class="hpic">
-        <img src="assets/error_propagation.jpg" alt="A small error at the individual-decision step grows through individual behaviour into a large error in the social outcome — amplified at each stage." loading="lazy" decoding="async">
-      </div>
-    </div>
-    <div class="cite">Ghaffarzadegan et al. (2024)</div>
-  </div>
-</section>
-
-<!-- SLIDE 9: THE FIX -->
-<section class="slide">
-  <div class="slide-pad" style="padding:72px 132px 76px">
-    <div class="topbar"><span><span class="dot"></span>The evaluation</span></div>
-    <div class="kicker green" style="margin-top:30px">The fix</div>
-    <h2 class="title green">An <em>evaluation system</em> for the decision step</h2>
-    <p class="body" style="margin-top:18px;max-width:1560px;font-size:25px;line-height:1.45">No one has checked whether the decisions AI agents produce match how real people behave. So this essay argues for an evaluation system built for that decision step &mdash; with <span class="strong">two aims</span>, and a loop that works <span class="strong">like an exam</span>.</p>
-
-    <div class="split" style="margin-top:22px;align-items:center;gap:56px">
-      <div class="text" style="flex:.46">
-        <div style="display:flex;gap:20px;flex-direction:column">
-          <div style="border-left:3px solid var(--green);padding-left:18px">
-            <div style="font-family:var(--font-display);font-size:26px;color:var(--ink);font-weight:500;line-height:1.28"><span style="font-family:var(--font-mono);color:var(--green);font-size:20px;font-weight:700;margin-right:8px">1</span>Verify whether the decision simulation is <em style="color:var(--green)">accurate</em>.</div>
+        <div class="topline reveal"><span>Why was intervention needed?</span><strong>From health risk to policy problem</strong><span class="slide-no">02 / 05</span></div>
+        <div class="evidence-grid">
+          <div class="evidence-intro reveal delay-1">
+            <span class="mini-label">Background</span>
+            <h2 data-editable="true" style="margin-top:25px">Sugary drinks became one focus within the wider childhood-obesity debate.</h2>
+            <p class="body-large" data-editable="true">They are widely sold, can contain a lot of free sugar, and can add many calories when people drink them often.</p>
           </div>
-          <div style="border-left:3px solid var(--green);padding-left:18px">
-            <div style="font-family:var(--font-display);font-size:26px;color:var(--ink);font-weight:500;line-height:1.28"><span style="font-family:var(--font-mono);color:var(--green);font-size:20px;font-weight:700;margin-right:8px">2</span>Where it is not, pinpoint the <em style="color:var(--green)">root cause</em> and iterate until it meets the standard.</div>
+          <div class="evidence-steps">
+            <article class="evidence-step reveal delay-1"><span class="n">01</span><div><h3 data-editable="true">Health evidence</h3><p data-editable="true">Regular sugary-drink consumption can add a lot of sugar and calories, and is linked to tooth decay and weight gain.</p></div></article>
+            <article class="evidence-step reveal delay-2"><span class="n">02</span><div><h3 data-editable="true">Children’s health data</h3><p data-editable="true">Obesity was measured across England and was more common in poorer communities.</p></div></article>
+            <article class="evidence-step reveal delay-3"><span class="n">03</span><div><h3 data-editable="true">A policy problem</h3><p data-editable="true">Government had to decide how to cut children’s sugar intake without putting all the responsibility on families.</p></div></article>
           </div>
         </div>
-        <div style="margin-top:20px;padding:14px 18px;background:var(--panel);border-radius:10px;border:1px solid var(--line)">
-          <p class="body" style="font-size:17px;line-height:1.45;color:var(--ink-soft)">Benchmark, rubric, mechanism &mdash; the three parts the next slides unpack. The diagram shows the whole loop.</p>
-        </div>
-      </div>
+        <p class="bottom-claim reveal delay-4" data-editable="true">The levy starts from the idea that children’s choices are shaped by what companies make and what shops sell.</p>
+        <p class="source-strip"><a href="https://www.gov.uk/government/publications/childhood-obesity-a-plan-for-action/childhood-obesity-a-plan-for-action" target="_blank">DHSC (2016), Childhood obesity: a plan for action</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/36701272/" target="_blank">Rogers et al. (2023), PLOS Medicine</a></p>
+      </section>
 
-      <div class="figure" style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center">
-        <img src="assets/eval_loop.jpg" alt="The evaluation loop: Benchmark agents &rarr; Scenario (fare +10%) &rarr; Rubric (marking criteria) &rarr; Expert + LLM assess &rarr; Results (score + diagnosis) &rarr; Pass threshold, with feedback looping back to the agents." style="max-width:100%;max-height:560px;object-fit:contain;border-radius:14px" loading="lazy" decoding="async">
-      </div>
-    </div>
-    <div class="cite">Chang et al. (2024); Belfrage et al. (2024)</div>
-  </div>
-</section>
-
-<!-- SLIDE 10: BENCHMARK -->
+      <!-- === SLIDE 3: POLICY DESIGN === -->
 <section class="slide">
-  <div class="slide-pad" style="padding:78px 132px 84px">
-    <div class="topbar"><span><span class="dot"></span>The evaluation</span></div>
-    <div class="kicker green" style="margin-top:30px">Component 1</div>
-    <h2 class="title green">&#9312; Benchmark &mdash; diverse <em>agents</em></h2>
-    <div class="split" style="margin-top:26px;align-items:stretch;gap:56px">
-      <div class="text" style="flex:.76;display:flex;flex-direction:column;justify-content:center;gap:16px">
-        <div>
-          <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:6px">What it is</div>
-          <p class="body" style="font-size:26px;line-height:1.42">The set of <span class="strong">agents</span> we test &mdash; the "students" taking the exam. Each stands in for one real person, carrying their <span class="strong">personality, experience, and memory</span>.</p>
+        <div class="topline reveal"><span>What did the policy do?</span><strong>Design for reformulation</strong><span class="slide-no">03 / 05</span></div>
+        <h2 class="reveal delay-1" data-editable="true" style="margin-top:74px">A levy on manufacturers to encourage lower-sugar drinks.</h2>
+        <div class="timeline">
+          <article class="timeline-item reveal delay-1"><i class="dot"></i><span class="year">MARCH 2016</span><h3 data-editable="true">Announced</h3><p data-editable="true">The Chancellor announced the levy as part of the childhood-obesity strategy.</p></article>
+          <article class="timeline-item reveal delay-2"><i class="dot"></i><span class="year">APRIL 2018</span><h3 data-editable="true">Implemented</h3><p data-editable="true">Manufacturers and importers of eligible sugary drinks started paying the levy.</p></article>
+          <article class="timeline-item reveal delay-3"><i class="dot"></i><span class="year">HOW IT WORKS</span><h3 data-editable="true">Lower the sugar content</h3><p data-editable="true">Companies could avoid the levy by bringing a drink below a sugar threshold.</p></article>
         </div>
-        <div>
-          <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:6px">In the fare-rise case</div>
-          <p class="body" style="font-size:26px;line-height:1.42">The question: <em>bus fares rise 10% &mdash; what would you do?</em> Each agent's answer is then <span class="strong">checked against real ridership records</span>.</p>
+        <div class="rates reveal delay-3">
+          <div class="rate-card"><b>18p / litre</b><span>5g to &lt;8g total sugar per 100ml</span></div>
+          <div class="rate-card"><b>24p / litre</b><span>8g+ total sugar per 100ml</span></div>
         </div>
-        <div style="padding:14px 18px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:8px">
-          <div style="font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:4px">Requirement</div>
-          <p class="body" style="font-size:21px;color:var(--ink);line-height:1.4">The agents must be as <em>diverse</em> as possible &mdash; different types of people, different traits, experiences, and memories &mdash; not one average response.</p>
-        </div>
-      </div>
-      <div class="figure" style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center">
-        <img src="assets/benchmark_agents.jpg" alt="The benchmark: four diverse agents &mdash; a student, a worker, a retiree, and a parent &mdash; each with different memory, preference, trait, and circumstance. Each takes the same policy question and is checked against real ridership records." style="max-width:100%;max-height:660px;object-fit:contain;border-radius:14px" loading="lazy" decoding="async">
-      </div>
-    </div>
-    <div class="cite">Chang et al. (2024); Park et al. (2024)</div>
-  </div>
-</section>
+        <p class="design-note reveal delay-4" data-editable="true">It asked the drinks industry to change products instead of leaving the issue only to parents and children.</p>
+        <p class="source-strip"><a href="https://www.gov.uk/government/news/soft-drinks-industry-levy-comes-into-effect" target="_blank">HM Treasury (2018), SDIL comes into effect</a> · Rates shown are those at implementation.</p>
+      </section>
 
-<!-- SLIDE 11: RUBRIC -->
+      <!-- === SLIDE 4: EVIDENCE, POLITICS AND POWER === -->
 <section class="slide">
-  <div class="slide-pad" style="padding:80px 132px 84px">
-    <div class="topbar"><span><span class="dot"></span>The evaluation</span></div>
-    <div class="kicker green" style="margin-top:30px">Component 2</div>
-    <h2 class="title green">&#9313; Rubric &mdash; the <em>marking scheme</em></h2>
-    <div class="split" style="margin-top:26px;align-items:stretch;gap:56px">
-      <div class="text" style="flex:.72;display:flex;flex-direction:column;justify-content:center;gap:18px">
-        <div>
-          <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:6px">What it is</div>
-          <p class="body" style="font-size:26px;line-height:1.42">The <span class="strong">marking scheme</span> &mdash; criteria, set by domain experts, for what a <span class="strong">realistic</span> decision looks like in this policy area. The rubric judges an agent&rsquo;s output from several angles, not just plausibility.</p>
+        <div class="topline reveal"><span>Why target companies?</span><strong>Changing the food environment</strong><span class="slide-no">04 / 05</span></div>
+        <h2 class="reveal delay-1" data-editable="true" style="margin-top:62px">The levy focused on the people who decide what goes into drinks.</h2>
+        <div class="compare-head reveal delay-2"><h3>Why not rely entirely on children or parents?</h3><h3>Why charge manufacturers?</h3></div>
+        <div class="compare">
+          <section class="compare-column reveal delay-2"><ul><li data-editable="true">Children see what is cheap, easy to buy and heavily advertised.</li><li data-editable="true">Advice cannot change what is on offer in every family’s local food environment.</li><li data-editable="true">This approach can leave families carrying most of the responsibility for a problem they do not fully control.</li></ul></section>
+          <section class="compare-column power reveal delay-3"><ul><li data-editable="true">Companies decide recipes and can reduce sugar to fall below the levy thresholds.</li><li data-editable="true">High-sugar drinks become more expensive for firms to sell, without being banned.</li><li data-editable="true">Firms can reformulate, absorb some of the cost or raise prices. Their responses will differ.</li></ul></section>
         </div>
-        <div>
-          <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:6px">The key rule</div>
-          <p class="body" style="font-size:26px;line-height:1.42">Example: on a freezing winter day, Kairus&rsquo;s foot is injured, yet because bus fares rose 10% he walks 10 km to work. That clearly doesn&rsquo;t fit his current state &mdash; <span class="strong">low score</span>. So a decision earns marks only if it <span class="strong">fits the person</span> behind the agent &mdash; personality, experience, constraints, and more.</p>
-        </div>
-      </div>
-      <div class="figure" style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center">
-        <img src="assets/rubric_walk_snow.jpg" alt="An unreasonable decision checked against a rubric: on a freezing winter day Kairus, with an injured bandaged foot, walks 10 km to work because bus fares rose 10% — clearly wrong, it doesn&rsquo;t fit his current state. The rubric grades the decision from several angles: fits personality, fits experience, meets constraints, cost-sensitive, time-feasible." style="max-width:100%;max-height:660px;object-fit:contain;border-radius:14px" loading="lazy" decoding="async">
-      </div>
-    </div>
-    <div class="cite">Belfrage et al. (2024)</div>
-  </div>
-</section>
+        <aside class="verdict reveal delay-4" data-editable="true"><b>Design principle:</b><br><br>Give companies a reason to sell lower-sugar drinks.</aside>
+        <p class="source-strip"><a href="https://www.gov.uk/government/consultations/soft-drinks-industry-levy" target="_blank">HMRC & HM Treasury (2016), consultation and response</a> · The policy process also involved advocates, industry consultation and political choices.</p>
+      </section>
 
-<!-- SLIDE 12: MECHANISM -->
+      <!-- === SLIDE 5: EVALUATION AND TAKEAWAY === -->
 <section class="slide">
-  <div class="slide-pad" style="padding:84px 132px 84px">
-    <div class="topbar"><span><span class="dot"></span>The evaluation</span></div>
-    <div class="kicker green" style="margin-top:30px">Component 3</div>
-    <h2 class="title green">&#9314; Mechanism &mdash; grade together, diagnose, <em>feed back</em></h2>
-    <div class="split" style="margin-top:28px;align-items:stretch;gap:60px">
-      <div class="text" style="flex:.8;display:flex;flex-direction:column;justify-content:center;gap:18px">
-        <div>
-          <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:6px">Why two graders</div>
-          <div style="display:flex;gap:16px;flex-direction:column">
-            <div style="border-left:3px solid var(--green);padding-left:18px">
-              <div style="font-family:var(--font-display);font-size:24px;color:var(--ink);font-weight:500;line-height:1.28"><span style="color:var(--green)">LLM &middot;</span> <em style="color:var(--green)">efficiency</em> &mdash; screens every decision at scale, fast.</div>
-            </div>
-            <div style="border-left:3px solid var(--accent);padding-left:18px">
-              <div style="font-family:var(--font-display);font-size:24px;color:var(--ink);font-weight:500;line-height:1.28"><span style="color:var(--accent)">Expert &middot;</span> <em style="color:var(--accent)">understanding</em> &mdash; judges the hard cases the LLM can't.</div>
-            </div>
+        <div class="topline reveal"><span>What can we conclude?</span><strong>Evaluation with caution</strong><span class="slide-no">05 / 05</span></div>
+        <h2 class="reveal delay-1" data-editable="true" style="margin-top:62px">The levy changed drinks, but it cannot solve obesity inequalities on its own.</h2>
+        <div class="outcome-grid">
+          <div class="reveal delay-2">
+            <article class="stat-panel"><strong class="big-stat">46%</strong><p data-editable="true">average reduction in sugar content in drinks covered by the levy, 2015 to 2020.</p></article>
+            <article class="stat-panel"><strong class="big-stat">−1.6 pp</strong><p data-editable="true">fall in obesity prevalence among Year 6 girls associated with the levy in one time-series study.</p></article>
           </div>
+          <aside class="note-panel reveal delay-3"><h3 data-editable="true">Read the evidence carefully</h3><ul><li data-editable="true">The study cannot show that the levy was the only cause of the change.</li><li data-editable="true">It found no overall change for younger children or for Year 6 boys.</li><li data-editable="true">Food prices, poverty and local food environments still shape obesity inequality.</li></ul></aside>
         </div>
-        <div>
-          <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:10px">More than a score</div>
-          <div style="display:flex;gap:14px;flex-direction:column">
-            <div style="border-left:3px solid var(--accent2);padding-left:18px">
-              <div style="font-family:var(--font-display);font-size:24px;color:var(--ink);font-weight:500;line-height:1.28">Each grader writes a <em style="color:var(--accent2)">diagnosis</em> &mdash; where and why it's wrong.</div>
-            </div>
-            <div style="border-left:3px solid var(--accent);padding-left:18px">
-              <div style="font-family:var(--font-display);font-size:24px;color:var(--ink);font-weight:500;line-height:1.28">It feeds back to the agent &mdash; adjust, re-run, <em style="color:var(--accent)">closer each round</em>.</div>
-            </div>
-            <div style="border-left:3px solid var(--green);padding-left:18px">
-              <div style="font-family:var(--font-display);font-size:24px;color:var(--ink);font-weight:500;line-height:1.28">Repeat until the score <em style="color:var(--green)">clears the threshold</em>.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="figure" style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center">
-        <img src="assets/grading_human_llm.jpg" alt="The mechanism: a human expert (red pen) and an LLM robot (blue pen) grade decisions side by side &mdash; the LLM screens every decision at scale for efficiency, the expert judges the hard cases the LLM can&rsquo;t. Each writes a diagnosis, not just a score, feeding back to the agent." style="max-width:100%;max-height:660px;object-fit:contain;border-radius:14px" loading="lazy" decoding="async">
-      </div>
-    </div>
-    <div class="cite">Li, Das &amp; Shirado (2025); Belfrage et al. (2024)</div>
+        <p class="closing-line reveal delay-4" data-editable="true">Research made the levy more persuasive. Public pressure, commercial interests and political judgement still shaped the final policy.</p>
+        <p class="source-strip"><a href="https://www.gov.uk/government/publications/soft-drinks-industry-levy-review/hmt-hmrc-soft-drinks-industry-levy-review" target="_blank">HMT & HMRC (2023), SDIL review</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/36701272/" target="_blank">Rogers et al. (2023), PLOS Medicine</a>. pp = percentage points.</p>
+      </section>
+    </main>
   </div>
-</section>
 
-<!-- SLIDE 13: CONCLUSION -->
-<section class="slide">
-  <div class="slide-pad" style="padding:70px 132px 92px">
-    <div class="topbar"><span><span class="dot"></span>Conclusion</span></div>
-    <div class="kicker" style="margin-top:30px">Conclusion</div>
-    <h2 class="title" style="font-size:60px;margin-top:6px;line-height:1.05">Explore <span style="color:var(--accent2);font-weight:400">&ne;</span> <em>predict</em></h2>
+  <!-- === DECK CONTROLS === -->
+  <nav class="deck-controls" aria-label="Presentation controls">
+    <button id="prev" aria-label="Previous slide">←</button><span id="counter">1 / 5</span><div class="progress" aria-hidden="true"><i id="progressBar"></i></div><button id="next" aria-label="Next slide">→</button>
+  </nav>
 
-    <div class="split" style="margin-top:24px;align-items:stretch;gap:56px;flex:1 1 0;min-height:0">
-      <div class="text" style="flex:.72;display:flex;flex-direction:column;justify-content:center">
-        <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px">The arc of this talk</div>
-        <div style="display:flex;flex-direction:column;gap:20px">
-          <div style="display:flex;gap:16px;align-items:flex-start">
-            <span style="font-family:var(--font-mono);font-size:16px;color:var(--accent2);font-weight:700;width:24px;flex-shrink:0">1</span>
-            <div style="font-family:var(--font-body);font-size:26px;color:var(--ink);line-height:1.42">Good policy can <em style="color:var(--accent2)">harm</em> &mdash; so we <span class="strong">simulate before we launch</span>.</div>
-          </div>
-          <div style="display:flex;gap:16px;align-items:flex-start">
-            <span style="font-family:var(--font-mono);font-size:16px;color:var(--accent2);font-weight:700;width:24px;flex-shrink:0">2</span>
-            <div style="font-family:var(--font-body);font-size:26px;color:var(--ink);line-height:1.42">AI agents <span class="strong">capture the person</span> &mdash; but the LLM's guess at the decision step is <em style="color:var(--accent2)">never certain</em>.</div>
-          </div>
-          <div style="display:flex;gap:16px;align-items:flex-start">
-            <span style="font-family:var(--font-mono);font-size:16px;color:var(--accent2);font-weight:700;width:24px;flex-shrink:0">3</span>
-            <div style="font-family:var(--font-body);font-size:26px;color:var(--ink);line-height:1.42">So an <em style="color:var(--green)">evaluation system</em> &mdash; benchmark, rubric, mechanism &mdash; <span class="strong">checks each decision and feeds the weakness back</span>.</div>
-          </div>
-        </div>
-      </div>
+  <!-- === OPTIONAL INLINE EDITING === -->
+  <div class="edit-hotzone" aria-label="Edit presentation"></div>
+  <button class="edit-toggle" id="editToggle" title="Edit mode (E)">✎</button>
 
-      <div class="figure" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px">
-        <div style="border-left:4px solid var(--accent);padding:8px 0 8px 24px">
-          <div style="font-family:var(--font-display);font-size:33px;line-height:1.2;color:var(--ink);font-weight:500">AI-based policy simulation can <em style="color:var(--green)">explore</em> how people might respond&hellip;</div>
-        </div>
-        <div style="border-left:4px solid var(--accent2);padding:8px 0 8px 24px">
-          <div style="font-family:var(--font-display);font-size:33px;line-height:1.2;color:var(--ink);font-weight:500">&hellip;but it cannot yet <em style="color:var(--accent2)">predict</em> what will actually happen &mdash; so we cannot rely on it completely.</div>
-        </div>
-        <div style="margin-top:6px;padding:16px 20px;background:var(--panel);border-radius:12px;border:1px solid var(--line)">
-          <div style="font-family:var(--font-body);font-size:21px;color:var(--ink-soft);line-height:1.42">For now it is a tool to <span class="strong">explore</span>, not a crystal ball to <span class="strong">predict</span> &mdash; and the work ahead is to push that line.</div>
-        </div>
-      </div>
-    </div>
+  <script>
+    /* === PRESENTATION CONTROLLER === */
+    class SlidePresentation {
+      constructor() {
+        this.slides = [...document.querySelectorAll('.slide')];
+        this.stage = document.getElementById('deckStage');
+        this.current = 0;
+        this.touchX = null;
+        this.setupStageScale();
+        this.setupInput();
+        this.show(0);
+      }
+      setupStageScale() {
+        const fit = () => {
+          const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+          const x = (window.innerWidth - 1920 * scale) / 2;
+          const y = (window.innerHeight - 1080 * scale) / 2;
+          this.stage.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+        };
+        fit(); window.addEventListener('resize', fit);
+      }
+      show(index) {
+        this.current = Math.max(0, Math.min(index, this.slides.length - 1));
+        this.slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === this.current);
+          slide.classList.toggle('visible', i === this.current);
+        });
+        document.getElementById('counter').textContent = `${this.current + 1} / ${this.slides.length}`;
+        document.getElementById('progressBar').style.width = `${((this.current + 1) / this.slides.length) * 100}%`;
+      }
+      next() { this.show(this.current + 1); }
+      prev() { this.show(this.current - 1); }
+      setupInput() {
+        document.getElementById('next').addEventListener('click', () => this.next());
+        document.getElementById('prev').addEventListener('click', () => this.prev());
+        document.addEventListener('keydown', (event) => {
+          if (event.target.isContentEditable) return;
+          if (['ArrowRight', 'ArrowDown', ' ', 'PageDown'].includes(event.key)) { event.preventDefault(); this.next(); }
+          if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); this.prev(); }
+          if (event.key === 'Home') this.show(0);
+          if (event.key === 'End') this.show(this.slides.length - 1);
+        });
+        window.addEventListener('wheel', (event) => { if (Math.abs(event.deltaY) > 24) event.deltaY > 0 ? this.next() : this.prev(); }, { passive: true });
+        this.stage.addEventListener('touchstart', event => { this.touchX = event.changedTouches[0].screenX; }, { passive: true });
+        this.stage.addEventListener('touchend', event => {
+          const diff = event.changedTouches[0].screenX - this.touchX;
+          if (Math.abs(diff) > 55) diff < 0 ? this.next() : this.prev();
+        }, { passive: true });
+      }
+    }
 
-    <div style="margin-top:36px;display:flex;gap:32px;align-items:stretch">
-      <div style="flex:1;border-top:1px solid var(--line);padding-top:16px">
-        <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:8px">Limit 1 &middot; people</div>
-        <div style="font-family:var(--font-body);font-size:21px;color:var(--ink-soft);line-height:1.4">It needs people who <span class="strong">understand both</span> the AI and the policy area &mdash; and those are scarce.</div>
-      </div>
-      <div style="flex:1;border-top:1px solid var(--line);padding-top:16px">
-        <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:8px">Limit 2 &middot; cost</div>
-        <div style="font-family:var(--font-body);font-size:21px;color:var(--ink-soft);line-height:1.4">Scoring each decision takes <span class="strong">people, resources, and time</span> &mdash; not a one-off, but every round.</div>
-      </div>
-      <div style="flex:1;border-top:1px solid var(--line);padding-top:16px">
-        <div style="font-family:var(--font-mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:8px">Looking ahead</div>
-        <div style="font-family:var(--font-body);font-size:21px;color:var(--ink-soft);line-height:1.4">Lighter grading, agents that learn with less &mdash; pushing explore toward <em style="color:var(--green)">predict</em>.</div>
-      </div>
-    </div>
-  </div>
-  <div class="cite">Belfrage et al. (2024); Li, Das &amp; Shirado (2025)</div>
-</section>
+    window.deck = new SlidePresentation();
 
-<!-- SLIDE 14: REFERENCES -->
-<section class="slide">
-  <div class="slide-pad">
-    <div class="topbar"><span><span class="dot"></span>References</span></div>
-    <div class="kicker" style="margin-top:30px">References</div>
-    <h2 class="title" style="font-size:44px;margin-bottom:26px">References</h2>
-    <ol class="refs">
-      <li>Belfrage, M., Johansson, E., Lorig, F. and Davidsson, P. (2024) &lsquo;[In]Credible models: verification, validation and accreditation of agent-based models to support policy-making&rsquo;, <em>Journal of Artificial Societies and Social Simulation</em>, 27(4), article 4.</li>
-      <li>Chang, Y., Wang, X., Wang, J., Wu, Y., Yang, L., Zhu, K., Chen, H., Yi, X., Wang, C., Wang, Y., Ye, W., Zhang, Y., Chang, Y., Yu, P., Yang, Q. and Xie, X. (2024) &lsquo;A survey on evaluation of large language models&rsquo;, <em>ACM Transactions on Intelligent Systems and Technology</em>, 15(3), pp. 1&ndash;45.</li>
-      <li>Ghaffarzadegan, N., Majumdar, A., Williams, R. and Hosseinichimeh, N. (2024) &lsquo;Generative agent-based modeling: an introduction and tutorial&rsquo;, <em>System Dynamics Review</em>, 40(1), article e1761.</li>
-      <li>Jamali, R. and Lazarova-Molnar, S. (2026) &lsquo;Agent-based modeling and simulation for economic markets: a comprehensive review of applications, challenges, and opportunities&rsquo;, <em>Journal of Simulation</em>, pp. 1&ndash;50.</li>
-      <li>Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., Ishii, E., Bang, Y., Madotto, A. and Fung, P. (2023) &lsquo;Survey of hallucination in natural language generation&rsquo;, <em>ACM Computing Surveys</em>, 55(12), pp. 1&ndash;38.</li>
-      <li>Larooij, M. and T&ouml;rnberg, P. (2025) &lsquo;Validation is the central challenge for generative social simulation: a critical review of LLMs in agent-based modeling&rsquo;, <em>Artificial Intelligence Review</em>, 59(1), article 15.</li>
-      <li>Li, Y., Das, S. and Shirado, H. (2025) &lsquo;What makes LLM agent simulations useful for policy practice? An iterative design study in emergency preparedness&rsquo;, arXiv preprint.</li>
-      <li>Neumark, D., Salas, I. and Wascher, W. (2014) &lsquo;Revisiting the minimum wage&ndash;employment debate: throwing out the baby with the bathwater?&rsquo;, <em>ILR Review</em>, 67(3 suppl), pp. 608&ndash;648.</li>
-      <li>Park, J.S., Zou, C.Q., Kamphorst, J., Egan, N., Shaw, A., Hill, B.M., Cai, C., Morris, M.R., Liang, P., Willer, R. and Bernstein, M.S. (2024) &lsquo;LLM agents grounded in self-reports enable general-purpose simulation of individuals&rsquo;, arXiv preprint.</li>
-      <li>Zhang, S., Peng, Z. and Ren, Y. (2026) &lsquo;GPLab: a generative agent-based framework for policy simulation and evaluation&rsquo;, <em>Journal of Artificial Societies and Social Simulation</em>, 29(1), article 6.</li>
-    </ol>
-  </div>
-</section>
-  </main>
-</div>
-<script>
-class SlidePresentation{
-  constructor(){
-    this.slides=[...document.querySelectorAll('.slide')];
-    this.current=0;this.stage=document.getElementById('deckStage');
-    this.fit();addEventListener('resize',()=>this.fit());
-    this.bindKeys();this.bindTouch();this.show(0);
-  }
-  fit(){const f=Math.min(innerWidth/1920,innerHeight/1080);const x=(innerWidth-1920*f)/2,y=(innerHeight-1080*f)/2;this.stage.style.transform=`translate(${x}px,${y}px) scale(${f})`}
-  show(i){this.current=Math.max(0,Math.min(i,this.slides.length-1));this.slides.forEach((s,k)=>{s.classList.toggle('active',k===this.current)});location.hash=this.current+1}
-  next(){if(this.current<this.slides.length-1)this.show(this.current+1)}
-  prev(){if(this.current>0)this.show(this.current-1)}
-  bindKeys(){addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();this.next()}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();this.prev()}else if(e.key==='Home'){this.show(0)}else if(e.key==='End'){this.show(this.slides.length-1)}else if(e.key==='f'||e.key==='F'){document.documentElement.requestFullscreen?.()}})}
-  bindTouch(){let x0=null;addEventListener('touchstart',e=>x0=e.touches[0].clientX);addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>50){dx<0?this.next():this.prev()}x0=null})}
-}
-document.addEventListener('DOMContentLoaded',()=>{window.deck=new SlidePresentation();const h=parseInt(location.hash.slice(1));if(h&&!isNaN(h))window.deck.show(h-1)});
-</script>
+    /* === INLINE EDITING WITH LOCAL STORAGE === */
+    const editor = {
+      isActive: false,
+      editable: [...document.querySelectorAll('[data-editable="true"]')],
+      toggleEditMode() {
+        this.isActive = !this.isActive;
+        document.body.classList.toggle('editing', this.isActive);
+        document.getElementById('editToggle').classList.toggle('active', this.isActive);
+        this.editable.forEach(el => el.contentEditable = this.isActive ? 'true' : 'false');
+      },
+      save() {
+        localStorage.setItem('sdil-evidence-policy-editable-copy', JSON.stringify(this.editable.map(el => el.innerHTML)));
+      },
+      restore() {
+        const stored = JSON.parse(localStorage.getItem('sdil-evidence-policy-editable-copy') || 'null');
+        if (stored) this.editable.forEach((el, i) => { if (stored[i]) el.innerHTML = stored[i]; });
+      }
+    };
+    editor.restore();
+    document.getElementById('editToggle').addEventListener('click', () => editor.toggleEditMode());
+    const hotzone = document.querySelector('.edit-hotzone');
+    const toggle = document.getElementById('editToggle');
+    let hideTimer;
+    const showEdit = () => { clearTimeout(hideTimer); toggle.classList.add('show'); };
+    const hideEdit = () => { hideTimer = setTimeout(() => { if (!editor.isActive) toggle.classList.remove('show'); }, 400); };
+    hotzone.addEventListener('mouseenter', showEdit); hotzone.addEventListener('mouseleave', hideEdit); hotzone.addEventListener('click', () => editor.toggleEditMode());
+    toggle.addEventListener('mouseenter', showEdit); toggle.addEventListener('mouseleave', hideEdit);
+    document.addEventListener('keydown', event => {
+      if ((event.key === 'e' || event.key === 'E') && !event.target.isContentEditable) editor.toggleEditMode();
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's' && editor.isActive) { event.preventDefault(); editor.save(); }
+    });
+  </script>
 </body>
 </html>
